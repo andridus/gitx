@@ -14,6 +14,9 @@ defmodule Swapex.Fixtures do
   @spec valid_username() :: String.t()
   def valid_username, do: Internet.user_name()
 
+  @spec valid_repo_name() :: String.t()
+  def valid_repo_name, do: Faker.Internet.slug()
+
   @spec valid_integer_non_neg() :: integer()
   def valid_integer_non_neg, do: :rand.uniform(100)
 

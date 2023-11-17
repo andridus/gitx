@@ -51,6 +51,32 @@ defmodule Swapex.Validate do
   end
 
   @doc """
+    Validates value when string from field in map.
+
+    ## Examples
+
+      iex> Swapex.Validate.is_valid_slug(%{a: "a-string"}, :a)
+      {:ok, %{a: "a-string"}}
+      iex> Swapex.Validate.is_valid_slug(%{a: "a string"}, :a)
+      {:error, :a, :invalid_slug}
+      iex> Swapex.Validate.is_valid_slug(%{a: ""}, :a)
+      {:error, :a, :invalid_slug}
+      iex> Swapex.Validate.is_valid_slug(%{a: 1}, :a)
+      {:error, :a, :invalid_slug}
+  """
+  def is_valid_slug(map, field) do
+    value = map[field]
+
+    cond do
+      is_bitstring(value) && String.length(value) > 0 && !String.contains?(value, " ") ->
+        {:ok, map}
+
+      :else ->
+        {:error, field, :invalid_slug}
+    end
+  end
+
+  @doc """
   Validates value in a list of (function evaluation)
 
   ## Examples

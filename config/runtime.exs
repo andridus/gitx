@@ -1,5 +1,8 @@
 import Config
 
+## Configuration for this project (prod config below)
+config :swapex, github_user: "andridus", github_repo: "lx"
+
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
 # system starts, so it is typically used to load production configuration
@@ -21,6 +24,17 @@ if System.get_env("PHX_SERVER") do
 end
 
 if config_env() == :prod do
+  ## Configuration for this project
+  user =
+    System.get_env("GITHUB_USER") ||
+      raise "environment variable GITHUB_USER is missing."
+
+  repository =
+    System.get_env("GITHUB_REPO") ||
+      raise "environment variable GITHUB_REPO is missing."
+
+  config :swapex, github_user: user, github_repo: repository
+
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
   # want to use a different value for prod and you most likely don't want

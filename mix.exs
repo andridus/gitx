@@ -9,7 +9,16 @@ defmodule Swapex.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        ignore_modules: [
+          Swapex.Application,
+          SwapexWeb.Gettext,
+          SwapexWeb.Router,
+          SwapexWeb.Endpoint,
+          SwapexWeb.Telemetry
+        ]
+      ]
     ]
   end
 
@@ -41,7 +50,11 @@ defmodule Swapex.MixProject do
       {:gettext, "~> 0.20"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
-      {:plug_cowboy, "~> 2.5"}
+      {:plug_cowboy, "~> 2.5"},
+      # test
+      {:faker, "~> 0.17", only: :test},
+      {:mix_test_watch, "~> 1.0", only: :test, runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
     ]
   end
 

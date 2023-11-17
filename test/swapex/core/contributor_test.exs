@@ -20,7 +20,7 @@ defmodule Swapex.Core.ContributorTest do
       assert ^qtd_commits = contributor.qtd_commits
     end
 
-    test "and qtd_commits is null" do
+    test "and error when qtd_commits is null" do
       fake_name = Faker.Person.name()
       fake_username = Faker.Internet.user_name()
       qtd_commits = nil
@@ -33,7 +33,7 @@ defmodule Swapex.Core.ContributorTest do
                })
     end
 
-    test "and name is null" do
+    test "and error when name is null" do
       fake_name = nil
       fake_username = Faker.Internet.user_name()
       qtd_commits = 1
@@ -46,7 +46,7 @@ defmodule Swapex.Core.ContributorTest do
                })
     end
 
-    test "and name is empty string" do
+    test "and error when name is empty string" do
       fake_name = ""
       fake_username = Faker.Internet.user_name()
       qtd_commits = 1
@@ -59,7 +59,7 @@ defmodule Swapex.Core.ContributorTest do
                })
     end
 
-    test "and user is empty string" do
+    test "and error when user is empty string" do
       fake_name = Faker.Person.name()
       fake_username = ""
       qtd_commits = 1

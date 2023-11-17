@@ -16,7 +16,8 @@ defmodule Swapex.MixProject do
           SwapexWeb.Gettext,
           SwapexWeb.Router,
           SwapexWeb.Endpoint,
-          SwapexWeb.Telemetry
+          SwapexWeb.Telemetry,
+          Swapex.Fixtures
         ]
       ]
     ]

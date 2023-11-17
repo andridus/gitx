@@ -4,9 +4,9 @@ defmodule Swapex.Core.ContributorTest do
 
   describe "Contributor Struct" do
     test "and create a new Contributor Struct" do
-      fake_name = Faker.Person.name()
-      fake_username = Faker.Internet.user_name()
-      qtd_commits = :rand.uniform(100)
+      fake_name = Fixtures.valid_name()
+      fake_username = Fixtures.valid_username()
+      qtd_commits = Fixtures.valid_integer_non_neg()
 
       assert {:ok, contributor} =
                Contributor.create(%{
@@ -21,8 +21,8 @@ defmodule Swapex.Core.ContributorTest do
     end
 
     test "and error when qtd_commits is null" do
-      fake_name = Faker.Person.name()
-      fake_username = Faker.Internet.user_name()
+      fake_name = Fixtures.valid_name()
+      fake_username = Fixtures.valid_username()
       qtd_commits = nil
 
       assert {:error, :qtd_commits, :invalid_number} =
@@ -35,8 +35,8 @@ defmodule Swapex.Core.ContributorTest do
 
     test "and error when name is null" do
       fake_name = nil
-      fake_username = Faker.Internet.user_name()
-      qtd_commits = 1
+      fake_username = Fixtures.valid_username()
+      qtd_commits = Fixtures.valid_integer_non_neg()
 
       assert {:error, :name, :invalid_string} =
                Contributor.create(%{
@@ -48,8 +48,8 @@ defmodule Swapex.Core.ContributorTest do
 
     test "and error when name is empty string" do
       fake_name = ""
-      fake_username = Faker.Internet.user_name()
-      qtd_commits = 1
+      fake_username = Fixtures.valid_username()
+      qtd_commits = Fixtures.valid_integer_non_neg()
 
       assert {:error, :name, :empty_string} =
                Contributor.create(%{
@@ -60,9 +60,9 @@ defmodule Swapex.Core.ContributorTest do
     end
 
     test "and error when user is empty string" do
-      fake_name = Faker.Person.name()
+      fake_name = Fixtures.valid_name()
       fake_username = ""
-      qtd_commits = 1
+      qtd_commits = Fixtures.valid_integer_non_neg()
 
       assert {:error, :user, :empty_string} =
                Contributor.create(%{
@@ -73,9 +73,9 @@ defmodule Swapex.Core.ContributorTest do
     end
 
     test "and user is null" do
-      fake_name = Faker.Person.name()
+      fake_name = Fixtures.valid_name()
       fake_username = nil
-      qtd_commits = 1
+      qtd_commits = Fixtures.valid_integer_non_neg()
 
       assert {:error, :user, :invalid_string} =
                Contributor.create(%{

@@ -7,6 +7,7 @@ defmodule Swapex.StructCase do
 
   using do
     quote do
+      alias Swapex.Fixtures
       import Swapex.StructCase
     end
   end

@@ -1,0 +1,11 @@
+{
+  "skip_files": [
+    "lib/swapex/application.ex",
+    "lib/swapex/mailer.ex",
+    "lib/swapex.ex",
+    "lib/swapex_web/endpoint.ex",
+    "lib/swapex_web/gettext.ex",
+    "lib/swapex_web/router.ex",
+    "lib/swapex_web/telemetry.ex"
+  ]
+}

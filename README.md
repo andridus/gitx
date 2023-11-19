@@ -48,3 +48,13 @@ Serviço que recupera todas as issues de um determinado repositório no github e
 
   É uma aplicação que, nos meus banchmarks consegue entregar:
   - **até XXXX**:  aprovisionar XXX MB e XX milicores
+
+
+## Para contribuir com o projeto
+
+ 1. Instale a versão mais 1.14 do Elixir.
+
+Configuramos um script com as validações necessárias para garantir a qualidade do código, e deve ser executado antes de realizar o commit, ou então instale o pre-commit para que seja configurado para rodar automaticamente antes de subir qualquer commit.
+ 2. Instale o pre-commit com `pip install pre-commit`
+ 3. execute o comando `pre-commit install`na raiz do projeto para configurar a validação no hook do pre-commit.
+ 4. execute o comando `pre-commit run --all-files` para verificar se está tudo ok.

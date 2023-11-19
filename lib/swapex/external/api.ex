@@ -10,7 +10,7 @@ defmodule Swapex.External.Api do
       @spec get(path :: String.t()) ::
               {:ok, HTTPoison.Response.t()} | {:error, HTTPoison.Error.t()}
       def get(path) do
-        Api.httpoison_get(unquote(endpoint) ++ path)
+        Api.httpoison_get(unquote(endpoint) <> path)
       end
     end
   end

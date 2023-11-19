@@ -1,0 +1,8 @@
+repos:
+- repo: local
+  hooks:
+    - id: validate-sh
+      name: validate-sh
+      entry: validate.sh
+      language: script
+      pass_filenames: false

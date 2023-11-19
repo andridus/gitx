@@ -4,7 +4,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
 
 ## Entradas e Saídas esperados
 - Entrada: Nome do usuário Nome do repositório
-- Expectativa de retorno de JSON em um webhook(Para ajudar, vc pode usar o https://webhook.site/):
+- Expectativa de retorno de JSON em um webhook(Utilizar o https://webhook.site/):
 
 ```elixir
 { user: nome_usuario
@@ -37,6 +37,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação da entidade `GithubRepo`
   - [x] Criação do Recurso API com HTTPoison
   - [x] Tratamento da informação proveniente da API em Github.Response
+    [ ] Configurar Mock em testes de API Externa (requisição HTTPoison)
   - [ ] Criação da API para obter os dados do github
   - [ ] Criação da função de contexto para criação do retorno
 
@@ -52,9 +53,10 @@ Serviço que recupera todas as issues de um determinado repositório no github e
 
 ## Para contribuir com o projeto
 
- 1. Instale a versão mais 1.14 do Elixir.
+ 1. Instale a versão mais 1.14 do [Elixir](https://elixir-lang.org/install.html).
 
-Configuramos um script com as validações necessárias para garantir a qualidade do código, e deve ser executado antes de realizar o commit, ou então instale o pre-commit para que seja configurado para rodar automaticamente antes de subir qualquer commit.
- 2. Instale o pre-commit com `pip install pre-commit`
- 3. execute o comando `pre-commit install`na raiz do projeto para configurar a validação no hook do pre-commit.
- 4. execute o comando `pre-commit run --all-files` para verificar se está tudo ok.
+ 2. Configuramos um script com as validações necessárias para garantir a qualidade do código, e deve ser executado antes de realizar o commit, ou então instale o [pre-commit](https://pre-commit.com/) para que seja configurado para rodar automaticamente antes de subir qualquer commit.
+
+    - Instale o pre-commit com `pip install pre-commit`
+    - execute o comando `pre-commit install`na raiz do projeto para configurar a validação no hook do pre-commit.
+    - execute o comando `pre-commit run --all-files` para verificar se está tudo ok.

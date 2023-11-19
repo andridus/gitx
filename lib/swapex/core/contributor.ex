@@ -2,7 +2,7 @@ defmodule Swapex.Core.Contributor do
   @moduledoc """
     Contributor Struct
   """
-
+  @behaviour Swapex.Core.EntityBehaviour
   alias Swapex.Validate
 
   @type t :: %__MODULE__{

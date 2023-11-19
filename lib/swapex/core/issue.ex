@@ -2,6 +2,7 @@ defmodule Swapex.Core.Issue do
   @moduledoc """
     GithubRepo Issue
   """
+  @behaviour Swapex.Core.EntityBehaviour
   alias Swapex.Validate
 
   @type t :: %__MODULE__{

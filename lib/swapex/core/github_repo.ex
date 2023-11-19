@@ -2,7 +2,7 @@ defmodule Swapex.Core.GithubRepo do
   @moduledoc """
     GithubRepo Struct
   """
-
+  @behaviour Swapex.Core.EntityBehaviour
   alias Swapex.Validate
   alias Swapex.Core.{Contributor, Issue}
 

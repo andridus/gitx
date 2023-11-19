@@ -42,6 +42,7 @@ defmodule Swapex.MixProject do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      # phoenix
       {:phoenix, "~> 1.7.10"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
       {:swoosh, "~> 1.3"},
@@ -52,6 +53,8 @@ defmodule Swapex.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:plug_cowboy, "~> 2.5"},
+      # libs extra
+      {:httpoison, "~> 2.0"},
       # test
       {:faker, "~> 0.17", only: :test},
       {:mix_test_watch, "~> 1.0", only: :test, runtime: false},

@@ -61,5 +61,38 @@ defmodule Swapex.External.Github.ApiTest do
                valid?: false
              } = response
     end
+
+    test "get repository issues successful" do
+      username = "andridus"
+      repository = "lx"
+      response = Github.Api.get_repository_issues(username, repository)
+
+      assert %Github.Response{
+               data: [
+                 %{"number" => 1}
+               ],
+               status: 200,
+               status_message: :success,
+               errors: [],
+               valid?: true
+             } = response
+    end
+
+    test "error when get repository issues that not found" do
+      username = "andridus"
+      repository = "not-found"
+      response = Github.Api.get_repository_issues(username, repository)
+
+      assert %Github.Response{
+               data: %{
+                 "message" => "Not Found",
+                 "documentation_url" => _
+               },
+               status: 404,
+               status_message: :not_found,
+               errors: ["Not Found"],
+               valid?: false
+             } = response
+    end
   end
 end

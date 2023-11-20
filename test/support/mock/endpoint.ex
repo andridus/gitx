@@ -8,6 +8,7 @@ defmodule Swapex.Mock.Endpoint do
   endpoint "https://api.github.com" do
     get "/users/:username", GithubFunctions, :get_user
     get "/repos/:username/:repo", GithubFunctions, :get_repo
+    get "/repos/:username/:repo/issues", GithubFunctions, :get_repo_issues
   end
 
   endpoint "https://swap.financial" do

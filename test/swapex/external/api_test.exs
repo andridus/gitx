@@ -39,9 +39,36 @@ defmodule Swapex.External.ApiTest do
       assert {:ok,
               %HTTPoison.Response{
                 status_code: 404,
-                body:
-                  "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/repos/repos#get-a-repository\"}"
+                body: body
               }} = Api.httpoison_get("https://api.github.com/repos/andridus/not-found")
+
+      assert {:ok,
+              %{
+                "message" => "Not Found",
+                "documentation_url" => _
+              }} = Jason.decode(body)
+    end
+
+    test "get a Github issue for repo by httpoison" do
+      assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
+               Api.httpoison_get("https://api.github.com/repos/andridus/lx/issues")
+
+      assert {:ok, data} = Jason.decode(body)
+      assert [%{"number" => 1}] = data
+    end
+
+    test "get an 404 from github repo and issues api " do
+      assert {:ok,
+              %HTTPoison.Response{
+                status_code: 404,
+                body: body
+              }} = Api.httpoison_get("https://api.github.com/repos/andridus/not-found/issues")
+
+      assert {:ok,
+              %{
+                "message" => "Not Found",
+                "documentation_url" => _
+              }} = Jason.decode(body)
     end
   end
 end

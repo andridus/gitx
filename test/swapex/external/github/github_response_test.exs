@@ -1,4 +1,4 @@
-defmodule Swapex.External.Github.ReponseTest do
+defmodule Swapex.External.Github.ResponseTest do
   alias Swapex.External.Github
   use Swapex.StructCase
 
@@ -23,35 +23,39 @@ defmodule Swapex.External.Github.ReponseTest do
     end
 
     test "parse status" do
-      httpoison_response = %HTTPoison.Response{status_code: 200}
-      assert {:ok, 200, :success} = Github.Response.parse_status(httpoison_response.status_code)
+      body = %{"result" => "todo"}
+      httpoison_response = %HTTPoison.Response{status_code: 200, body: body}
+
+      assert {:ok, 200, :success} =
+               Github.Response.parse_status(body, httpoison_response.status_code)
     end
 
     test "parse status when invalid status 500" do
       httpoison_response = %HTTPoison.Response{status_code: 500}
 
-      assert {:error, :status, :internal_server_error} =
-               Github.Response.parse_status(httpoison_response.status_code)
+      assert {:error, :status, 500, :internal_server_error, [], nil} =
+               Github.Response.parse_status(nil, httpoison_response.status_code)
     end
 
     test "parse status when invalid status 404" do
+      body = %{"message" => "Not Found"}
       httpoison_response = %HTTPoison.Response{status_code: 404}
 
-      assert {:error, :status, :not_found} =
-               Github.Response.parse_status(httpoison_response.status_code)
+      assert {:error, :status, 404, :not_found, ["Not Found"], %{"message" => "Not Found"}} =
+               Github.Response.parse_status(body, httpoison_response.status_code)
     end
 
     test "parse status when invalid status 300" do
       httpoison_response = %HTTPoison.Response{status_code: 300}
 
-      assert {:error, :status, :unhandled_error_300} =
-               Github.Response.parse_status(httpoison_response.status_code)
+      assert {:error, :status, 300, :unhandled_error, [], nil} =
+               Github.Response.parse_status(nil, httpoison_response.status_code)
     end
 
     test "map from HTTPoison response" do
       json = %{"result" => "todo"}
       {:ok, body} = Jason.encode(json)
-      httpoison_response = %HTTPoison.Response{status_code: 200, body: body}
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 200, body: body}}
 
       assert %Github.Response{
                data: ^json,
@@ -62,9 +66,27 @@ defmodule Swapex.External.Github.ReponseTest do
              } = Github.Response.from_httpoison(httpoison_response)
     end
 
+    test "map from HTTPoison 404 error response" do
+      body =
+        "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/repos/repos#get-a-repository\"}"
+
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 404, body: body}}
+
+      assert %Github.Response{
+               data: %{
+                 "message" => "Not Found",
+                 "documentation_url" => _
+               },
+               status: 404,
+               status_message: :not_found,
+               errors: ["Not Found"],
+               valid?: false
+             } = Github.Response.from_httpoison(httpoison_response)
+    end
+
     test "map from invalid HTTPoison body response" do
       body = "something"
-      httpoison_response = %HTTPoison.Response{status_code: 200, body: body}
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 200, body: body}}
 
       assert %Github.Response{errors: ["body_invalid_json"], valid?: false} =
                Github.Response.from_httpoison(httpoison_response)
@@ -73,14 +95,19 @@ defmodule Swapex.External.Github.ReponseTest do
     test "map from invalid HTTPoison status response" do
       json = %{"result" => "todo"}
       {:ok, body} = Jason.encode(json)
-      httpoison_response = %HTTPoison.Response{status_code: 500, body: body}
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 500, body: body}}
 
-      assert %Github.Response{errors: ["status_internal_server_error"], valid?: false} =
+      assert %Github.Response{
+               errors: [],
+               valid?: false,
+               status_message: :internal_server_error,
+               status: 500
+             } =
                Github.Response.from_httpoison(httpoison_response)
     end
 
     test "map from HTTPoison Error" do
-      httpoison_response = %HTTPoison.Error{reason: :nxdomain, __exception__: true}
+      httpoison_response = {:error, %HTTPoison.Error{reason: :nxdomain, __exception__: true}}
 
       assert %Github.Response{errors: ["exception_nxdomain"], valid?: false} =
                Github.Response.from_httpoison(httpoison_response)

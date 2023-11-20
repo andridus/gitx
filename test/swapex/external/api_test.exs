@@ -4,7 +4,7 @@ defmodule Swapex.External.ApiTest do
 
   describe "Api" do
     setup do
-      # Configure mimic to use Mock Github/Swap Endpoint
+      # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
       Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)
       :ok
     end
@@ -33,6 +33,15 @@ defmodule Swapex.External.ApiTest do
 
       assert {:ok, data} = Jason.decode(body)
       assert %{"name" => "lx"} = data
+    end
+
+    test "get an 404 from github api " do
+      assert {:ok,
+              %HTTPoison.Response{
+                status_code: 404,
+                body:
+                  "{\"message\":\"Not Found\",\"documentation_url\":\"https://docs.github.com/rest/repos/repos#get-a-repository\"}"
+              }} = Api.httpoison_get("https://api.github.com/repos/andridus/not-found")
     end
   end
 end

@@ -18,7 +18,7 @@ defmodule Swapex.MixProject do
           SwapexWeb.Endpoint,
           SwapexWeb.Telemetry,
           Swapex.Fixtures,
-          # Swapex.External.Api
+          Swapex.External.Api,
           Swapex.External.Github.Api
         ]
       ]

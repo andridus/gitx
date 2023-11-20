@@ -29,7 +29,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
 
   Em temos de biblioteca externa, preferimos não utilizar o Ecto, visto que não havia necessidade de utilizar banco de dados. E também no propósito de deixa o projeto todo mais leve possivel, evitamos de adicioná-lo ao Phoenix, juntamente com o Html (visto que não teria interface web.)
 
-  Para testes utilizamos `faker`, `:mix_test_watch` e `:credo`.
+  Para testes utilizamos `faker`, `httpmock`, `mimic`, `mix_test_watch` e `:credo`.
   Para bibliotecas externas, além do phoenix (sem ecto e html) utilizamos `httpoison`
 
   - [x] Criação da entidade `Issue`
@@ -38,7 +38,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação do Recurso API com HTTPoison
   - [x] Tratamento da informação proveniente da API em Github.Response
     [x] Configurar Mock em testes de API Externa (requisição HTTPoison)
-  - [ ] Criação da API para obter os dados do github
+  - [x] Criação da API para obter os dados do github
   - [ ] Criação da função de contexto para criação do retorno
     [ ] Criaçao da função para popular o webhook
     [ ] Criação do GenServer para realizar a execução da rotina

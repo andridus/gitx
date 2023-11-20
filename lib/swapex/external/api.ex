@@ -27,7 +27,7 @@ defmodule Swapex.External.Api do
       200 -> :success
       500 -> :internal_server_error
       404 -> :not_found
-      _ -> :"unhandled_error_#{status}"
+      _ -> :unhandled_error
     end
   end
 end

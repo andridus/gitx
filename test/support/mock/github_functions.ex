@@ -47,6 +47,17 @@ defmodule Swapex.Mock.GithubFunctions do
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}
   end
 
+  def get_repo(_conn, %{"repo" => "not-found", "username" => _username}) do
+    data =
+      %{
+        message: "Not Found",
+        documentation_url: "https://docs.github.com/rest/repos/repos#get-a-repository"
+      }
+      |> Jason.encode!()
+
+    {:ok, %HTTPoison.Response{body: data, status_code: 404}}
+  end
+
   def get_repo(_conn, %{"repo" => repo, "username" => username}) do
     url = "https://api.github.com/users/#{username}"
     repo_url = "https://api.github.com/repos/#{username}/#{repo}"

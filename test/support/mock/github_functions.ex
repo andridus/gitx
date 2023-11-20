@@ -210,7 +210,7 @@ defmodule Swapex.Mock.GithubFunctions do
   end
 
   def get_repo_contributors(_conn, %{"repo" => _repo, "username" => username}) do
-    data = [user(username)] |> Jason.encode!()
+    data = [Map.put(user(username), "contributions", 10)] |> Jason.encode!()
 
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}
   end

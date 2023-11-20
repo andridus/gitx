@@ -20,4 +20,9 @@ defmodule Swapex.Fixtures do
 
   @spec valid_title() :: String.t()
   def valid_title, do: Commerce.PtBr.product_name()
+
+  @spec datetime_before_days(integer()) :: String.t()
+  def datetime_before_days(days \\ 1) do
+    DateTime.utc_now() |> DateTime.add(-days, :day) |> DateTime.to_iso8601()
+  end
 end

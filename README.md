@@ -37,9 +37,11 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação da entidade `GithubRepo`
   - [x] Criação do Recurso API com HTTPoison
   - [x] Tratamento da informação proveniente da API em Github.Response
-    [ ] Configurar Mock em testes de API Externa (requisição HTTPoison)
+    [x] Configurar Mock em testes de API Externa (requisição HTTPoison)
   - [ ] Criação da API para obter os dados do github
   - [ ] Criação da função de contexto para criação do retorno
+    [ ] Criaçao da função para popular o webhook
+    [ ] Criação do GenServer para realizar a execução da rotina
 
 
 ## Para rodar a aplicação

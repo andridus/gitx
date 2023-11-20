@@ -17,7 +17,8 @@ defmodule Swapex.MixProject do
           SwapexWeb.Router,
           SwapexWeb.Endpoint,
           SwapexWeb.Telemetry,
-          Swapex.External.Api,
+          Swapex.Fixtures,
+          # Swapex.External.Api
           Swapex.External.Github.Api
         ]
       ]
@@ -59,7 +60,9 @@ defmodule Swapex.MixProject do
       # test
       {:faker, "~> 0.17", only: :test},
       {:mix_test_watch, "~> 1.0", only: :test, runtime: false},
-      {:credo, "~> 1.7", only: [:dev, :test], runtime: false}
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
+      {:httpmock, "~> 0.1.5", only: :test},
+      {:mimic, "~> 1.7", only: :test}
     ]
   end
 

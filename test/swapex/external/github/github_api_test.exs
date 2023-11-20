@@ -68,9 +68,14 @@ defmodule Swapex.External.Github.ApiTest do
       response = Github.Api.get_repository_issues(username, repository)
 
       assert %Github.Response{
-               data: [
-                 %{"number" => 1}
-               ],
+               data: %{
+                 "incomplete_results" => false,
+                 "total_count" => 1,
+                 "items" => [
+                   %{"number" => 1},
+                   _
+                 ]
+               },
                status: 200,
                status_message: :success,
                errors: [],
@@ -85,12 +90,13 @@ defmodule Swapex.External.Github.ApiTest do
 
       assert %Github.Response{
                data: %{
-                 "message" => "Not Found",
-                 "documentation_url" => _
+                 "message" => "Validation Failed",
+                 "documentation_url" => _,
+                 "errors" => _
                },
-               status: 404,
-               status_message: :not_found,
-               errors: ["Not Found"],
+               status: 200,
+               status_message: :success,
+               errors: ["Validation Failed"],
                valid?: false
              } = response
     end

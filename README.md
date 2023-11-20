@@ -41,9 +41,11 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação da função para obter os dados do repo do Github
   - [x] Criação da função para obter os dados de issues do repo do Github
   - [x] Criação da função para obter os dados de contribuidores do repo do Github
+  - [x] Criação da função de contexto para retorno dos issues
+  - [ ] Criação da função de contexto para retorno dos contributors
   - [ ] Criação da função de contexto para criação do retorno da `saída esperada`
-    [ ] Criaçao da função para popular o webhook
-    [ ] Criação do GenServer para realizar a execução da rotina
+  - [ ] Criaçao da função para popular o webhook
+  - [ ] Configuração do Oban para agendar operações pro proximo dia
 
 
 ## Para rodar a aplicação

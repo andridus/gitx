@@ -49,11 +49,30 @@ defmodule Swapex.External.ApiTest do
               }} = Jason.decode(body)
     end
 
-    test "get a Github issue for repo by httpoison" do
+    test "get a Github issue for search repo by httpoison" do
+      assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
+               Api.httpoison_get(
+                 "https://api.github.com/search/issues?q=repo:andridus/lx+type:issue+state:open"
+               )
+
+      assert {:ok, data} = Jason.decode(body)
+
+      assert %{
+               "incomplete_results" => false,
+               "total_count" => 1,
+               "items" => [
+                 %{"number" => 1},
+                 _
+               ]
+             } = data
+    end
+
+    test "get a Github issue for repo by httpoison " do
       assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
                Api.httpoison_get("https://api.github.com/repos/andridus/lx/issues")
 
       assert {:ok, data} = Jason.decode(body)
+
       assert [%{"number" => 1}] = data
     end
 

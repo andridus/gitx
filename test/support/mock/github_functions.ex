@@ -140,6 +140,44 @@ defmodule Swapex.Mock.GithubFunctions do
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}
   end
 
+  def search_repo_issues(_conn, %{"q" => q}) do
+    params = parse_params(q)
+    {username, repo} = get_value("repo", params)
+    state = get_value("state", params)
+
+    data =
+      case repo do
+        "not-found" ->
+          %{
+            "message" => "Validation Failed",
+            "errors" => [
+              %{
+                "message" =>
+                  "The listed users and repositories cannot be searched either because the resources do not exist or you do not have permission to view them.",
+                "resource" => "Search",
+                "field" => "q",
+                "code" => "invalid"
+              }
+            ],
+            "documentation_url" => "https://docs.github.com/v3/search/"
+          }
+
+        _ ->
+          one = one_issue(username, repo, state)
+          two = one_issue(username, repo, state, true)
+
+          %{
+            "incomplete_results" => false,
+            "total_count" => 1,
+            "items" => [one, two]
+          }
+      end
+
+    data = data |> Jason.encode!()
+
+    {:ok, %HTTPoison.Response{body: data, status_code: 200}}
+  end
+
   def get_repo_issues(_conn, %{"repo" => "not-found", "username" => _username}) do
     data =
       %{
@@ -153,51 +191,7 @@ defmodule Swapex.Mock.GithubFunctions do
   end
 
   def get_repo_issues(_conn, %{"repo" => repo, "username" => username}) do
-    repo_url = "https://api.github.com/repos/#{username}/#{repo}"
-
-    one =
-      %{
-        "url" => "#{repo_url}/issues/1",
-        "repository_url" => "#{repo_url}",
-        "labels_url" => "#{repo_url}/issues/1/labels{/name}",
-        "comments_url" => "#{repo_url}/issues/1/comments",
-        "events_url" => "#{repo_url}/issues/1/events",
-        "html_url" => "https://github.com/#{username}/#{repo}/issues/1",
-        "id" => Fixtures.valid_integer_non_neg(),
-        "node_id" => "I_kwDOJe2sNc5nKpVQ",
-        "number" => 1,
-        "title" => Faker.Lorem.sentence(),
-        "user" => user(username),
-        "labels" => [],
-        "state" => "open",
-        "locked" => false,
-        "assignee" => nil,
-        "assignees" => [],
-        "milestone" => nil,
-        "comments" => 0,
-        "created_at" => "2023-05-29T14:16:11Z",
-        "updated_at" => "2023-05-29T14:16:11Z",
-        "closed_at" => nil,
-        "author_association" => "OWNER",
-        "active_lock_reason" => nil,
-        "body" => Faker.Lorem.sentence(),
-        "reactions" => %{
-          "url" => "#{repo_url}/issues/1/reactions",
-          "total_count" => 0,
-          "+1" => 0,
-          "-1" => 0,
-          "laugh" => 0,
-          "hooray" => 0,
-          "confused" => 0,
-          "heart" => 0,
-          "rocket" => 0,
-          "eyes" => 0
-        },
-        "timeline_url" => "#{repo_url}/issues/1/timeline",
-        "performed_via_github_app" => nil,
-        "state_reason" => nil
-      }
-
+    one = one_issue(username, repo, "open")
     data = [one] |> Jason.encode!()
 
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}
@@ -244,5 +238,92 @@ defmodule Swapex.Mock.GithubFunctions do
       "type" => "User",
       "site_admin" => false
     }
+  end
+
+  defp one_issue(username, repo, state, has_labels? \\ false) do
+    repo_url = "https://api.github.com/repos/#{username}/#{repo}"
+
+    %{
+      "url" => "#{repo_url}/issues/1",
+      "repository_url" => "#{repo_url}",
+      "labels_url" => "#{repo_url}/issues/1/labels{/name}",
+      "comments_url" => "#{repo_url}/issues/1/comments",
+      "events_url" => "#{repo_url}/issues/1/events",
+      "html_url" => "https://github.com/#{username}/#{repo}/issues/1",
+      "id" => Fixtures.valid_integer_non_neg(),
+      "node_id" => "I_kwDOJe2sNc5nKpVQ",
+      "number" => 1,
+      "title" => Faker.Lorem.sentence(),
+      "user" => user(username),
+      "labels" =>
+        if(has_labels?,
+          do: [
+            %{
+              "id" => 91_041_697,
+              "node_id" => "MDU6TGFiZWw5MTA0MTY5Nw==",
+              "url" => "https://api.github.com/repos/elixirs/faker/labels/help%20wanted",
+              "name" => "help wanted",
+              "color" => "159818",
+              "default" => true,
+              "description" => nil
+            },
+            %{
+              "id" => 717_663_203,
+              "node_id" => "MDU6TGFiZWw3MTc2NjMyMDM=",
+              "url" => "https://api.github.com/repos/elixirs/faker/labels/good%20first%20issue",
+              "name" => "good first issue",
+              "color" => "d4c5f9",
+              "default" => true,
+              "description" => nil
+            }
+          ],
+          else: []
+        ),
+      "state" => state,
+      "locked" => false,
+      "assignee" => nil,
+      "assignees" => [],
+      "milestone" => nil,
+      "comments" => 0,
+      "created_at" => "2023-05-29T14:16:11Z",
+      "updated_at" => "2023-05-29T14:16:11Z",
+      "closed_at" => nil,
+      "author_association" => "OWNER",
+      "active_lock_reason" => nil,
+      "body" => Faker.Lorem.sentence(),
+      "reactions" => %{
+        "url" => "#{repo_url}/issues/1/reactions",
+        "total_count" => 0,
+        "+1" => 0,
+        "-1" => 0,
+        "laugh" => 0,
+        "hooray" => 0,
+        "confused" => 0,
+        "heart" => 0,
+        "rocket" => 0,
+        "eyes" => 0
+      },
+      "timeline_url" => "#{repo_url}/issues/1/timeline",
+      "performed_via_github_app" => nil,
+      "state_reason" => nil
+    }
+  end
+
+  defp parse_params(q) do
+    String.split(q, " ")
+    |> Enum.map(fn p ->
+      String.split(p, ":")
+      |> List.to_tuple()
+      |> case do
+        {"repo", username_repo} -> {"repo", username_repo |> String.split("/") |> List.to_tuple()}
+        {key, value} -> {key, value}
+      end
+    end)
+  end
+
+  defp get_value(key, params) do
+    params
+    |> List.keyfind!(key, 0)
+    |> elem(1)
   end
 end

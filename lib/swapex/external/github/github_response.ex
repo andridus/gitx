@@ -45,11 +45,17 @@ defmodule Swapex.External.Github.Response do
     _error -> {:error, :body, :invalid_json}
   end
 
-  def parse_status(body, status) do
-    if status in [200] do
+  def parse_status(body, status) when is_list(body) and status == 200 do
+    {:ok, status, Api.label_from_status(status)}
+  end
+
+  def parse_status(body, status) when is_map(body) or is_nil(body) do
+    message = body["message"] || []
+    errors = body["errors"] || []
+
+    if status in [200] && Enum.empty?(errors) do
       {:ok, status, Api.label_from_status(status)}
     else
-      message = body["message"] || []
       message = List.flatten([message])
       {:error, :status, status, Api.label_from_status(status), message, body}
     end

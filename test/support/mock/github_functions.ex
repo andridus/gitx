@@ -5,43 +5,26 @@ defmodule Swapex.Mock.GithubFunctions do
   alias Swapex.Fixtures
 
   def get_user(_conn, %{"username" => username}) do
-    url = "https://api.github.com/users/#{username}"
-
     data =
-      %{
-        login: username,
-        id: :rand.uniform(500_000),
-        node_id: Faker.UUID.v4(),
-        avatar_url: "https://avatars.githubusercontent.com/u/5901471?v=4",
-        gravatar_id: "",
-        url: url,
-        html_url: "https://github.com/#{username}",
-        followers_url: "#{url}/followers",
-        following_url: "#{url}/following{/other_user}",
-        gists_url: "#{url}/gists{/gist_id}",
-        starred_url: "#{url}/starred{/owner}{/repo}",
-        subscriptions_url: "#{url}/subscriptions",
-        organizations_url: "#{url}/orgs",
-        repos_url: "#{url}/repos",
-        events_url: "#{url}/events{/privacy}",
-        received_events_url: "#{url}/received_events",
-        type: "User",
-        site_admin: false,
-        name: Faker.Person.PtBr.name(),
-        company: nil,
-        blog: "",
-        location: Faker.Address.PtBr.country() <> "/" <> Faker.Address.PtBr.city(),
-        email: nil,
-        hireable: nil,
-        bio: Faker.Lorem.paragraph(1..2),
-        twitter_username: nil,
-        public_repos: 50,
-        public_gists: 0,
-        followers: 14,
-        following: 4,
-        created_at: Fixtures.datetime_before_days(-5),
-        updated_at: Fixtures.datetime_before_days(-1)
-      }
+      Map.merge(
+        user(username),
+        %{
+          "name" => Faker.Person.PtBr.name(),
+          "company" => nil,
+          "blog" => "",
+          "location" => Faker.Address.PtBr.country() <> "/" <> Faker.Address.PtBr.city(),
+          "email" => nil,
+          "hireable" => nil,
+          "bio" => Faker.Lorem.paragraph(1..2),
+          "twitter_username" => nil,
+          "public_repos" => 50,
+          "public_gists" => 0,
+          "followers" => 14,
+          "following" => 4,
+          "created_at" => Fixtures.datetime_before_days(-5),
+          "updated_at" => Fixtures.datetime_before_days(-1)
+        }
+      )
       |> Jason.encode!()
 
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}

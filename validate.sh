@@ -11,7 +11,7 @@ then
 else
   printf "[${RED}FAIL${NC}] $TERM\n"
   echo "--"
-  printf "more details: execute command ${WHITE}mix $CMD${NC}\n"
+  printf "more details: execute command ${WHITE}$CMD${NC}\n"
   exit 1
 fi
 }
@@ -21,28 +21,32 @@ printf "${WHITE}Execute suite: check-warning, check-formatted, credo, test, cove
 echo "----"
 
 TERM="check-warning"
-CMD="compile --warning-as-error"
-bash -c "mix ${CMD}" > /dev/null 2>&1;
+CMD="mix compile --warnings-as-errors"
+bash -c "${CMD}" > /dev/null 2>&1;
+validate
+TERM="check-warning on tests"
+CMD="MIX_ENV=test mix compile --warnings-as-errors"
+bash -c "${CMD}" > /dev/null 2>&1;
 validate
 
 TERM="check-formatted"
-CMD="format --check-formatted"
-bash -c "mix ${CMD}" > /dev/null 2>&1;
+CMD="mix format --check-formatted"
+bash -c "${CMD}" > /dev/null 2>&1;
 validate
 
 TERM="credo"
-CMD="credo --strict"
-bash -c "mix ${CMD} | grep \"found no issues\"" > /dev/null 2>&1;
+CMD="mix credo --strict"
+bash -c "${CMD} | grep \"found no issues\"" > /dev/null 2>&1;
 validate
 
 TERM="test"
-CMD="test"
-bash -c "mix ${CMD} | grep \"Finished\"" > /dev/null 2>&1;
+CMD="mix test"
+bash -c "${CMD} | grep \"Finished\"" > /dev/null 2>&1;
 validate
 
 TERM="coverage"
-CMD="test --cover"
-bash -c "mix ${CMD} | grep \"100.00% | Total\"" > /dev/null 2>&1;
+CMD="mix test --cover"
+bash -c "${CMD} | grep \"100.00% | Total\"" > /dev/null 2>&1;
 validate
 
 exit 0

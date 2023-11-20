@@ -9,6 +9,7 @@ defmodule Swapex.Mock.Endpoint do
     get "/users/:username", GithubFunctions, :get_user
     get "/repos/:username/:repo", GithubFunctions, :get_repo
     get "/repos/:username/:repo/issues", GithubFunctions, :get_repo_issues
+    get "/repos/:username/:repo/contributors", GithubFunctions, :get_repo_contributors
   end
 
   endpoint "https://swap.financial" do

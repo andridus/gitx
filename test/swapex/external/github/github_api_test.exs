@@ -94,5 +94,38 @@ defmodule Swapex.External.Github.ApiTest do
                valid?: false
              } = response
     end
+
+    test "get repository contributors successful" do
+      username = "andridus"
+      repository = "lx"
+      response = Github.Api.get_repository_contributors(username, repository)
+
+      assert %Github.Response{
+               data: [
+                 %{"login" => ^username}
+               ],
+               status: 200,
+               status_message: :success,
+               errors: [],
+               valid?: true
+             } = response
+    end
+
+    test "error when get repository contributors that not found" do
+      username = "andridus"
+      repository = "not-found"
+      response = Github.Api.get_repository_contributors(username, repository)
+
+      assert %Github.Response{
+               data: %{
+                 "message" => "Not Found",
+                 "documentation_url" => _
+               },
+               status: 404,
+               status_message: :not_found,
+               errors: ["Not Found"],
+               valid?: false
+             } = response
+    end
   end
 end

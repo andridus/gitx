@@ -40,8 +40,8 @@ Serviço que recupera todas as issues de um determinado repositório no github e
     [x] Configurar Mock em testes de API Externa (requisição HTTPoison)
   - [x] Criação da função para obter os dados do repo do Github
   - [x] Criação da função para obter os dados de issues do repo do Github
-  - [ ] Criação da função para obter os dados de contribuidores do repo do Github
-  - [ ] Criação da função de contexto para criação do retorno
+  - [x] Criação da função para obter os dados de contribuidores do repo do Github
+  - [ ] Criação da função de contexto para criação do retorno da `saída esperada`
     [ ] Criaçao da função para popular o webhook
     [ ] Criação do GenServer para realizar a execução da rotina
 

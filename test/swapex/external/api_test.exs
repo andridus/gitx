@@ -70,5 +70,28 @@ defmodule Swapex.External.ApiTest do
                 "documentation_url" => _
               }} = Jason.decode(body)
     end
+
+    test "get a Github repo contributors by httpoison" do
+      assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
+               Api.httpoison_get("https://api.github.com/repos/andridus/lx/contributors")
+
+      assert {:ok, data} = Jason.decode(body)
+      assert [%{"login" => "andridus"}] = data
+    end
+
+    test "get an 404 from Github repo contributors api " do
+      assert {:ok,
+              %HTTPoison.Response{
+                status_code: 404,
+                body: body
+              }} =
+               Api.httpoison_get("https://api.github.com/repos/andridus/not-found/contributors")
+
+      assert {:ok,
+              %{
+                "message" => "Not Found",
+                "documentation_url" => _
+              }} = Jason.decode(body)
+    end
   end
 end

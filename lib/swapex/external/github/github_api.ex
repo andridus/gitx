@@ -18,4 +18,11 @@ defmodule Swapex.External.Github.Api do
     get("/repos/#{username}/#{repository}/issues")
     |> Github.Response.from_httpoison()
   end
+
+  @spec get_repository_contributors(username :: String.t(), repository :: String.t()) ::
+          Github.Response.t()
+  def get_repository_contributors(username, repository) do
+    get("/repos/#{username}/#{repository}/contributors")
+    |> Github.Response.from_httpoison()
+  end
 end

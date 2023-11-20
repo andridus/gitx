@@ -160,7 +160,8 @@ defmodule Swapex.Mock.GithubFunctions do
   def get_repo_issues(_conn, %{"repo" => "not-found", "username" => _username}) do
     data =
       %{
-        "documentation_url" => "https://docs.github.com/rest/repos/repos#get-a-repository",
+        "documentation_url" =>
+          "https://docs.github.com/rest/issues/issues#list-repository-issues",
         "message" => "Not Found"
       }
       |> Jason.encode!()
@@ -215,6 +216,24 @@ defmodule Swapex.Mock.GithubFunctions do
       }
 
     data = [one] |> Jason.encode!()
+
+    {:ok, %HTTPoison.Response{body: data, status_code: 200}}
+  end
+
+  def get_repo_contributors(_conn, %{"repo" => "not-found", "username" => _username}) do
+    data =
+      %{
+        "documentation_url" =>
+          "https://docs.github.com/rest/contributors/contributors#list-repository-contributors",
+        "message" => "Not Found"
+      }
+      |> Jason.encode!()
+
+    {:ok, %HTTPoison.Response{body: data, status_code: 404}}
+  end
+
+  def get_repo_contributors(_conn, %{"repo" => _repo, "username" => username}) do
+    data = [user(username)] |> Jason.encode!()
 
     {:ok, %HTTPoison.Response{body: data, status_code: 200}}
   end

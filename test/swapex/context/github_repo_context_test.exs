@@ -16,6 +16,9 @@ defmodule Swapex.Context.GithubRepoContextTest do
     test "fetch a repository" do
       username = "andridus"
       repository = "lx"
+      # create contributors and issues on Github Api
+      :ok = State.set_contributors(username, repository, [1])
+      :ok = State.set_issues(username, repository, "open", false, 1..2)
 
       assert {:ok,
               %GithubRepo{

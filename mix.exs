@@ -20,7 +20,8 @@ defmodule Swapex.MixProject do
           Swapex.Fixtures,
           Swapex.External.Api,
           Swapex.External.Github.Api,
-          Swapex.Mock.GithubFunctions
+          Swapex.Mock.GithubFunctions,
+          Swapex.Mock.State
         ]
       ]
     ]

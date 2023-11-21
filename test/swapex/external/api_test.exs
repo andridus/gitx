@@ -52,6 +52,8 @@ defmodule Swapex.External.ApiTest do
     end
 
     test "get a Github issue for search repo by httpoison" do
+      :ok = State.set_issues("andridus", "lx", "open", false, 1..2)
+
       assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
                Api.httpoison_get(
                  "https://api.github.com/search/issues?q=repo:andridus/lx+type:issue+state:open"
@@ -61,7 +63,7 @@ defmodule Swapex.External.ApiTest do
 
       assert %{
                "incomplete_results" => false,
-               "total_count" => 1,
+               "total_count" => 2,
                "items" => [
                  %{"number" => 1},
                  _
@@ -70,6 +72,8 @@ defmodule Swapex.External.ApiTest do
     end
 
     test "get a Github issue for repo by httpoison " do
+      :ok = State.set_issues("andridus", "lx", "open", false, [1])
+
       assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
                Api.httpoison_get("https://api.github.com/repos/andridus/lx/issues")
 
@@ -93,6 +97,8 @@ defmodule Swapex.External.ApiTest do
     end
 
     test "get a Github repo contributors by httpoison" do
+      :ok = State.set_contributors("andridus", "lx", [1])
+
       assert {:ok, %HTTPoison.Response{body: body, status_code: 200}} =
                Api.httpoison_get("https://api.github.com/repos/andridus/lx/contributors")
 

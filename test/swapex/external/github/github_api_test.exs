@@ -1,12 +1,15 @@
 defmodule Swapex.External.Github.ApiTest do
+  use Swapex.StructCase, async: false
+
   alias DialyxirVendored.Formatter.Github
   alias Swapex.External.Github
-  use Swapex.StructCase
+  alias Swapex.Mock.State
 
   describe "Github.Api" do
     setup do
       # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
       Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)
+      State.reset()
       :ok
     end
 
@@ -65,15 +68,17 @@ defmodule Swapex.External.Github.ApiTest do
     test "get repository issues successful" do
       username = "andridus"
       repository = "lx"
+      :ok = State.set_issues(username, repository, "open", false, 1..3)
       response = Github.Api.get_repository_issues(username, repository)
 
       assert %Github.Response{
                data: %{
                  "incomplete_results" => false,
-                 "total_count" => 1,
+                 "total_count" => 3,
                  "items" => [
                    %{"number" => 1},
-                   _
+                   %{"number" => 2},
+                   %{"number" => 3}
                  ]
                },
                status: 200,
@@ -104,6 +109,7 @@ defmodule Swapex.External.Github.ApiTest do
     test "get repository contributors successful" do
       username = "andridus"
       repository = "lx"
+      State.set_contributors(username, repository, [1])
       response = Github.Api.get_repository_contributors(username, repository)
 
       assert %Github.Response{

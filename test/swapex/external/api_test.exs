@@ -1,11 +1,13 @@
 defmodule Swapex.External.ApiTest do
   alias Swapex.External.Api
-  use Swapex.StructCase
+  use Swapex.StructCase, async: false
+  alias Swapex.Mock.State
 
   describe "Api" do
     setup do
       # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
       Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)
+      State.reset()
       :ok
     end
 
@@ -109,6 +111,42 @@ defmodule Swapex.External.ApiTest do
       assert {:ok,
               %{
                 "message" => "Not Found",
+                "documentation_url" => _
+              }} = Jason.decode(body)
+    end
+  end
+
+  describe "Api with rate limit" do
+    setup do
+      # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
+      Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)
+      State.reset()
+      State.set_rate_limit(1)
+      :ok
+    end
+
+    test "get an 403 from github" do
+      assert {:ok,
+              %HTTPoison.Response{
+                status_code: 404,
+                body: body
+              }} = Api.httpoison_get("https://api.github.com/repos/andridus/not-found/issues")
+
+      assert {:ok,
+              %{
+                "message" => "Not Found",
+                "documentation_url" => _
+              }} = Jason.decode(body)
+
+      assert {:ok,
+              %HTTPoison.Response{
+                status_code: 403,
+                body: body
+              }} = Api.httpoison_get("https://api.github.com/repos/andridus/not-found/issues")
+
+      assert {:ok,
+              %{
+                "message" => "API rate limit exceeded for" <> _,
                 "documentation_url" => _
               }} = Jason.decode(body)
     end

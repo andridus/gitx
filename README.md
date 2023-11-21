@@ -43,7 +43,9 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação da função para obter os dados de contribuidores do repo do Github
   - [x] Criação da função de contexto para retorno dos issues
   - [x] Criação da função de contexto para retorno dos contributors
-  - [ ] Criação da função de contexto para criação do retorno da `saída esperada`
+  - [x] Criação da função de contexto para criação do retorno da `saída esperada`
+  - [x] Configuração de testes para rate limit
+  - [ ] Ajustar função de obter issues e contributors para obter recursivamente.
   - [ ] Criaçao da função para popular o webhook
   - [ ] Configuração do Oban para agendar operações pro proximo dia
 

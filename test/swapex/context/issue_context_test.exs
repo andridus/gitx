@@ -37,7 +37,7 @@ defmodule Swapex.Context.IssueContextTest do
       username = "andridus"
       repository = "not-found"
 
-      assert {:error, ["Validation Failed"]} = IssueContext.fetch_issues(username, repository)
+      assert {:error, ["Not Found"]} = IssueContext.fetch_issues(username, repository)
     end
   end
 end

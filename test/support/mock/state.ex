@@ -42,9 +42,9 @@ defmodule Swapex.Mock.State do
   end
 
   def set_contributors(username, repo, range) do
-    total = all_contributors(repo) |> Enum.count()
+    total = all_contributors(repo, {50_000, 1}) |> Enum.count()
 
-    if length(range) > 0 do
+    if Enum.count(range) > 0 do
       owner =
         one_user(username)
         |> Map.put("contributions", 10)
@@ -67,13 +67,15 @@ defmodule Swapex.Mock.State do
     :ok
   end
 
-  def all_contributors(repo) do
+  def all_contributors(repo, {per_page, page}) do
     all(:contributors)
     |> Enum.filter(&(&1["repo"] == repo))
+    |> Enum.drop((page - 1) * per_page)
+    |> Enum.take(per_page)
   end
 
   def set_issues(username, repo, state, has_labels?, range \\ 1..5) do
-    total = all_issues(repo, state) |> Enum.count()
+    total = all_issues(repo, state, {50_000, 1}) |> Enum.count()
 
     for {_, i} <- Enum.with_index(range, total) do
       issue =
@@ -87,9 +89,11 @@ defmodule Swapex.Mock.State do
     :ok
   end
 
-  def all_issues(repo, state) do
+  def all_issues(repo, state, {per_page, page}) do
     all(:issues)
     |> Enum.filter(&(&1["repo"] == repo && &1["state"] == state))
+    |> Enum.drop((page - 1) * per_page)
+    |> Enum.take(per_page)
   end
 
   def one_repo(username, repo) do

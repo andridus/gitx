@@ -97,7 +97,7 @@ defmodule Swapex.Mock.GithubFunctions do
               }
 
             _ ->
-              issues = State.all_issues(repo, state)
+              issues = State.all_issues(repo, state, {50_000, 1})
 
               %{
                 "incomplete_results" => false,
@@ -134,11 +134,14 @@ defmodule Swapex.Mock.GithubFunctions do
     end
   end
 
-  def get_repo_issues(conn, %{"repo" => repo, "username" => _username}) do
+  def get_repo_issues(conn, %{"repo" => repo, "username" => _username} = params) do
     State.access(conn.url)
     |> case do
       :ok ->
-        data = State.all_issues(repo, "open") |> Jason.encode!()
+        per_page = (params["per_page"] || "30") |> String.to_integer()
+        page = (params["page"] || "1") |> String.to_integer()
+
+        data = State.all_issues(repo, "open", {per_page, page}) |> Jason.encode!()
 
         {:ok, %HTTPoison.Response{body: data, status_code: 200}}
 
@@ -166,11 +169,14 @@ defmodule Swapex.Mock.GithubFunctions do
     end
   end
 
-  def get_repo_contributors(conn, %{"repo" => repo, "username" => _username}) do
+  def get_repo_contributors(conn, %{"repo" => repo, "username" => _username} = params) do
     State.access(conn.url)
     |> case do
       :ok ->
-        data = State.all_contributors(repo) |> Jason.encode!()
+        per_page = (params["per_page"] || "30") |> String.to_integer()
+        page = (params["page"] || "1") |> String.to_integer()
+
+        data = State.all_contributors(repo, {per_page, page}) |> Jason.encode!()
         {:ok, %HTTPoison.Response{body: data, status_code: 200}}
 
       :rate_limit ->

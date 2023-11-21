@@ -112,5 +112,45 @@ defmodule Swapex.External.Github.ResponseTest do
       assert %Github.Response{errors: ["exception_nxdomain"], valid?: false} =
                Github.Response.from_httpoison(httpoison_response)
     end
+
+    test "aggregate responses" do
+      json = %{"result" => "todo"}
+      {:ok, body} = Jason.encode(json)
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 200, body: body}}
+      response = Github.Response.from_httpoison(httpoison_response)
+
+      ten_json = Enum.map(1..10, fn _ -> json end)
+      ten_response = Enum.map(1..10, fn _ -> response end)
+
+      assert %Github.Response{
+               data: ^ten_json,
+               status: 200,
+               status_message: :success,
+               errors: [],
+               valid?: true
+             } = Github.Response.aggregate_response(ten_response)
+    end
+
+    test "aggregate responses with failed" do
+      json = %{"result" => "todo"}
+      {:ok, body} = Jason.encode(json)
+      httpoison_response = {:ok, %HTTPoison.Response{status_code: 200, body: body}}
+      response = Github.Response.from_httpoison(httpoison_response)
+
+      failed_httpoison_response =
+        {:error, %HTTPoison.Error{reason: :nxdomain, __exception__: true}}
+
+      failed_response = Github.Response.from_httpoison(failed_httpoison_response)
+
+      ten_response = Enum.map(1..10, fn _ -> response end)
+
+      assert %Github.Response{
+               data: nil,
+               status: 422,
+               status_message: :unprocessable_content,
+               errors: ["aggregation: There are invalids responses"],
+               valid?: false
+             } = Github.Response.aggregate_response([failed_response | ten_response])
+    end
   end
 end

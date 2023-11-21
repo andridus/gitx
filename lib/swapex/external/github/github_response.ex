@@ -15,6 +15,28 @@ defmodule Swapex.External.Github.Response do
 
   defstruct data: nil, status: 0, status_message: :none, errors: [], valid?: false
 
+  @spec aggregate_response([__MODULE__.t()]) :: {:ok, __MODULE__.t()} | {:error, String.t()}
+  def aggregate_response(responses) do
+    if Enum.all?(responses, & &1.valid?) do
+      data = Enum.map(responses, & &1.data) |> List.flatten()
+
+      struct(__MODULE__, %{
+        data: data,
+        status: 200,
+        status_message: :success,
+        valid?: true
+      })
+    else
+      struct(__MODULE__, %{
+        data: nil,
+        status: 422,
+        status_message: :unprocessable_content,
+        errors: ["aggregation: There are invalids responses"],
+        valid?: false
+      })
+    end
+  end
+
   def from_httpoison({_, %HTTPoison.Response{} = response}) do
     with {:ok, body} <- parse_body(response.body),
          {:ok, status, status_msg} <- parse_status(body, response.status_code) do

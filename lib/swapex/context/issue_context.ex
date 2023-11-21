@@ -14,7 +14,7 @@ defmodule Swapex.Context.IssueContext do
     case Github.Api.get_repository_issues(username, repository) do
       %Github.Response{valid?: true, data: data} ->
         issues =
-          for issue <- data["items"] do
+          for issue <- data do
             Issue.create(%{
               title: issue["title"],
               author: issue["user"]["login"],

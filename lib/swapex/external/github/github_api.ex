@@ -2,7 +2,6 @@ defmodule Swapex.External.Github.Api do
   @moduledoc """
     Github Api to make requests
   """
-  alias DialyxirVendored.Formatter.Github
   use Swapex.External.Api, endpoint: "https://api.github.com"
   alias Swapex.External.Github
 

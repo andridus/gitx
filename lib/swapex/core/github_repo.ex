@@ -13,6 +13,7 @@ defmodule Swapex.Core.GithubRepo do
           contributors: [Contributor.t()]
         }
 
+  @derive {Jason.Encoder, only: [:user, :repo, :issues, :contributors]}
   defstruct user: "",
             repo: "",
             issues: [],

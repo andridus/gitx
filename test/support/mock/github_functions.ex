@@ -35,6 +35,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -53,6 +56,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -68,6 +74,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -112,6 +121,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -131,6 +143,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -147,6 +162,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -166,6 +184,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 
@@ -181,6 +202,9 @@ defmodule Swapex.Mock.GithubFunctions do
 
       :rate_limit ->
         response_rate_limit(conn.url)
+
+      :nxdomain ->
+        {:error, %HTTPoison.Error{reason: :nxdomain}}
     end
   end
 

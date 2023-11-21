@@ -11,6 +11,7 @@ defmodule Swapex.Core.Contributor do
           qtd_commits: non_neg_integer()
         }
 
+  @derive {Jason.Encoder, only: [:name, :user, :qtd_commits]}
   defstruct name: "",
             user: "",
             qtd_commits: 0

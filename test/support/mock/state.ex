@@ -17,7 +17,12 @@ defmodule Swapex.Mock.State do
 
   def set_rate_limit(limit) do
     delete(:limits, 1)
-    create(:limits, %{id: 1, limit: limit})
+    create(:limits, %{id: 1, limit: limit, type: :rate_limit})
+  end
+
+  def set_nxdomain do
+    delete(:limits, 1)
+    create(:limits, %{id: 1, limit: 0, type: :nxdomain})
   end
 
   def access(endpoint) do
@@ -26,7 +31,10 @@ defmodule Swapex.Mock.State do
       nil ->
         :ok
 
-      limit ->
+      %{type: :nxdomain} ->
+        :nxdomain
+
+      %{type: :rate_limit} = limit ->
         all_requests = all(:request) |> length()
 
         if all_requests < limit.limit do

@@ -3,7 +3,23 @@ defmodule Swapex.External.ApiTest do
   use Swapex.StructCase, async: false
   alias Swapex.Mock.State
 
-  describe "Api" do
+  describe "Api POST" do
+    setup do
+      # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
+      Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)
+      State.reset()
+      :ok
+    end
+
+    test "post webhook.api from httpoison" do
+      uuid = "7bed3493-18fb-4b78-827b-d19a95207211"
+
+      assert {:ok, %HTTPoison.Response{status_code: 200}} =
+               Api.httpoison_post("https://webhook.site/#{uuid}", %{})
+    end
+  end
+
+  describe "Api GET" do
     setup do
       # Configure HTTPoison to use Mock Github/Swap Endpoint in the tests below
       Mimic.stub_with(HTTPoison, Swapex.Mock.Endpoint)

@@ -1,8 +1,9 @@
 defmodule Swapex.Core.GithubRepoTest do
+  use Swapex.StructCase
+
+  alias Swapex.Core.GithubRepo
   alias Swapex.FixturesContributor
   alias Swapex.FixturesIssue
-  use Swapex.StructCase
-  alias Swapex.Core.GithubRepo
 
   describe "GithubRepo Struct" do
     test "and create a new GithubRepo Struct" do

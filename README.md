@@ -47,7 +47,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Configuração de testes para rate limit
   - [x] Configuração de testes gerenciar estados por testes individuais
   - [x] Ajustar função de obter issues e contributors recursivamente.
-  - [ ] Criaçao da função para popular o webhook
+  - [x] Criaçao da função para popular o webhook
   - [ ] Configuração do Oban para agendar operações pro proximo dia
   - [ ] Implementar endpoint para realizar `entrada esperada`
   - [ ] Implementar prevenção de rate_limit para muitas requisições no Github (60 req/hora)
@@ -56,10 +56,6 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   Configuramos a aplicação para ficar pronta em docker afim de que a execução seja facilitada, além de poder medir o tamanho da imagem e prever a quantidade de recursos que ela necessitará, em caso de rodando em kubernetes.
 
   * Executar `docker-compose up` para rodar a aplicação através do docker
-
-  É uma aplicação que, nos meus banchmarks consegue entregar:
-  - **até XXXX**:  aprovisionar XXX MB e XX milicores
-
 
 ## Para contribuir com o projeto
 

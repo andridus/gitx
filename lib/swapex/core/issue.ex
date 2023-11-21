@@ -11,6 +11,7 @@ defmodule Swapex.Core.Issue do
           labels: [String.t()]
         }
 
+  @derive {Jason.Encoder, only: [:title, :author, :labels]}
   defstruct title: "",
             author: "",
             labels: []

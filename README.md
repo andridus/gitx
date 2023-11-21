@@ -27,10 +27,10 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   Criamos as entidades `Issue`, `Contributor` e `GithubRepo` para formar o json de resposta, esperado acima.
   Adicionamos validações aos campos nas entidades, tudo orientado a TDD.
 
-  Em temos de biblioteca externa, preferimos não utilizar o Ecto, visto que não havia necessidade de utilizar banco de dados. E também no propósito de deixa o projeto todo mais leve possivel, evitamos de adicioná-lo ao Phoenix, juntamente com o Html (visto que não teria interface web.)
+  Em temos de biblioteca externa, ~~preferimos não utilizar o Ecto, visto que não havia necessidade de utilizar banco de dados~~ utilizamos o Ecto com SQLite somente para a execução dos jobs. E também no propósito de deixa o projeto todo mais leve possivel, evitamos de adicioná-lo ao Phoenix, juntamente com o Html (visto que não teria interface web.)
 
   Para testes utilizamos `faker`, `httpmock`, `mimic`, `mix_test_watch` e `:credo`.
-  Para bibliotecas externas, além do phoenix (sem ecto e html) utilizamos `httpoison`
+  Para bibliotecas externas, além do phoenix framework (sem ecto e html) utilizamos `httpoison`, `sqlite`, `ecto` e `oban`
 
   - [x] Criação da entidade `Issue`
   - [x] Criação da entidade `Contibutor`
@@ -48,7 +48,9 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Configuração de testes gerenciar estados por testes individuais
   - [x] Ajustar função de obter issues e contributors recursivamente.
   - [x] Criaçao da função para popular o webhook
-  - [ ] Configuração do Oban para agendar operações pro proximo dia
+  - [x] Configuração do Oban com SQLite para agendar operações pro proximo dia
+  - [ ] Criação de um job imediato para obter os dados do Github
+  - [ ] Criação de um job agendado para efetuar push pro Webhook
   - [ ] Implementar endpoint para realizar `entrada esperada`
   - [ ] Implementar prevenção de rate_limit para muitas requisições no Github (60 req/hora)
 

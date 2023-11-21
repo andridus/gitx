@@ -10,7 +10,9 @@ defmodule Swapex.Application do
     children = [
       SwapexWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:swapex, :dns_cluster_query) || :ignore},
+      Swapex.Repo,
       {Phoenix.PubSub, name: Swapex.PubSub},
+      {Oban, Application.fetch_env!(:swapex, Oban)},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Swapex.Finch},
       # Start a worker by calling: Swapex.Worker.start_link(arg)

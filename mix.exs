@@ -21,7 +21,8 @@ defmodule Swapex.MixProject do
           Swapex.External.Api,
           Swapex.External.Github.Api,
           Swapex.Mock.GithubFunctions,
-          Swapex.Mock.State
+          Swapex.Mock.State,
+          Swapex.Repo
         ]
       ]
     ]
@@ -59,6 +60,9 @@ defmodule Swapex.MixProject do
       {:plug_cowboy, "~> 2.5"},
       # libs extra
       {:httpoison, "~> 2.0"},
+      {:oban, "~> 2.16"},
+      {:ecto_sql, "~> 3.0"},
+      {:ecto_sqlite3, "~> 0.12"},
       # test
       {:faker, "~> 0.17", only: :test},
       {:mix_test_watch, "~> 1.0", only: :test, runtime: false},

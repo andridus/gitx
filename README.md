@@ -37,7 +37,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Criação da entidade `GithubRepo`
   - [x] Criação do Recurso API com HTTPoison
   - [x] Tratamento da informação proveniente da API em Github.Response
-    [x] Configurar Mock em testes de API Externa (requisição HTTPoison)
+  - [x] Configurar Mock em testes de API Externa (requisição HTTPoison)
   - [x] Criação da função para obter os dados do repo do Github
   - [x] Criação da função para obter os dados de issues do repo do Github
   - [x] Criação da função para obter os dados de contribuidores do repo do Github
@@ -84,14 +84,14 @@ Serviço que recupera todas as issues de um determinado repositório no github e
 
 ## Para contribuir com o projeto
 
- 1. Instale a versão mais 1.14 do [Elixir](https://elixir-lang.org/install.html).
-
- 2. Configuramos um script com as validações necessárias para garantir a qualidade do código, e deve ser executado antes de realizar o commit, ou então instale o [pre-commit](https://pre-commit.com/) para que seja configurado para rodar automaticamente antes de subir qualquer commit.
+  1. Instale a versão mais 1.14 do [Elixir](https://elixir-lang.org/install.html);
+  2. Configuramos um script com as validações necessárias para garantir a qualidade do código, e deve ser executado antes de realizar o commit, ou então instale o [pre-commit](https://pre-commit.com/) para que seja configurado para rodar automaticamente antes de subir qualquer commit;
 
     - Instale o pre-commit com `pip install pre-commit`
     - execute o comando `pre-commit install`na raiz do projeto para configurar a validação no hook do pre-commit.
     - execute o comando `pre-commit run --all-files` para verificar se está tudo ok.
 
-  3. É necessário criar a base de dados com os comandos
+  3. Pode-se executar a qualquer momento o script `validate.sh` que executa uma sequência de validações para garantir a qualidade do código, equivalente ao (2);
+  4. É necessário criar a base de dados com os comandos.
   - `mix ecto.create`
   - `mix ecto.migrate`

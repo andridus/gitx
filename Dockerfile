@@ -20,6 +20,10 @@ ARG RUNNER_IMAGE="debian:${DEBIAN_VERSION}"
 
 FROM ${BUILDER_IMAGE} as builder
 
+# only for create the database default
+ENV WEBHOOK_ID=dont-change-needed
+ENV SECRET_KEY_BASE=dont-change-needed
+ENV DATABASE_PATH=/app/data/base.db
 # install build dependencies
 RUN apt-get update -y && apt-get install -y build-essential git \
     && apt-get clean && rm -f /var/lib/apt/lists/*_*
@@ -57,6 +61,8 @@ COPY config/runtime.exs config/
 
 COPY rel rel
 RUN mix release
+RUN mix ecto.create
+RUN mix ecto.migrate
 
 # start a new build stage so that the final image will only contain
 # the compiled release and other runtime necessities
@@ -68,7 +74,7 @@ RUN apt-get update -y && \
 
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && locale-gen
-
+RUN groupadd nobody
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US:en
 ENV LC_ALL en_US.UTF-8
@@ -81,6 +87,7 @@ ENV MIX_ENV="prod"
 
 # Only copy the final release from the build stage
 COPY --from=builder --chown=nobody:root /app/_build/${MIX_ENV}/rel/swapex ./
+COPY --from=builder --chown=nobody:root /app/data ./data
 
 USER nobody
 

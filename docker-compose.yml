@@ -1,0 +1,17 @@
+version: '3'
+services:
+  swapex:
+    image: swapex
+    build:
+      context: .
+    # volumes:
+    #   - ./data:/app/data
+    environment:
+      - WEBHOOK_ID=f855fbda-72e2-4c0c-8f67-a28146931f84
+      - DATABASE_PATH=/app/data/base.db
+      - DELIVERY=minute # minute | hour | day
+      - SECRET_KEY_BASE=8RSQ6spireSlcocKD7tDzC104BhqMkaVM5uJdGFGl1IQ4d0aUA4ozYAkjZ68J/vB
+    stdin_open: true
+    tty: true
+    ports:
+      - '4000:4000'

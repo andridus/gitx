@@ -16,6 +16,8 @@ defmodule SwapexWeb.ConnCase do
   """
 
   use ExUnit.CaseTemplate
+  alias Ecto.Adapters.SQL.Sandbox
+  alias Swapex.Repo
 
   using do
     quote do
@@ -31,7 +33,14 @@ defmodule SwapexWeb.ConnCase do
     end
   end
 
-  setup _tags do
+  setup tags do
+    :ok = Sandbox.checkout(Repo)
+
+    unless tags[:async] do
+      Sandbox.mode(Repo, {:shared, self()})
+    end
+
+    :ok
     {:ok, conn: Phoenix.ConnTest.build_conn()}
   end
 end

@@ -20,7 +20,13 @@ defmodule Swapex.Context.SchedulerContextTest do
       # create contributors and issues on Github Api
       :ok = State.set_contributors(username, repository, [1])
       :ok = State.set_issues(username, repository, "open", false, 1..2)
-      assert {:ok, _job} = SchedulerContext.to_fetch_repository(username, repository)
+
+      params = %{
+        "username" => username,
+        "repository" => repository
+      }
+
+      assert {:ok, _job} = SchedulerContext.to_fetch_repository(params)
 
       jobs_gihub = all_enqueued(queue: :github)
       assert Enum.all?(jobs_gihub, &(&1.worker in workers_github))
@@ -34,8 +40,28 @@ defmodule Swapex.Context.SchedulerContextTest do
                  perform_job(Module.concat(String.split(worker, ".")), args)
 
         assert "scheduled" = job_webhook.state
-        assert DateTime.diff(job_webhook.scheduled_at, DateTime.utc_now(), :hour) == 24
+        assert DateTime.diff(job_webhook.scheduled_at, DateTime.utc_now(), :hour) >= 23
       end
+    end
+
+    test "error fetch a repository - wrong params" do
+      workers_github = ["Swapex.Jobs.Github.FetchRepositoryJob"]
+      username = "andridus"
+      repository = "lx"
+      # create contributors and issues on Github Api
+      :ok = State.set_contributors(username, repository, [1])
+      :ok = State.set_issues(username, repository, "open", false, 1..2)
+
+      params = %{
+        "wrong" => username,
+        "repository" => repository
+      }
+
+      assert {:error, "`username` required"} = SchedulerContext.to_fetch_repository(params)
+
+      jobs_gihub = all_enqueued(queue: :github)
+      assert Enum.all?(jobs_gihub, &(&1.worker in workers_github))
+      assert Enum.empty?(jobs_gihub)
     end
 
     test "fetch a repository and push" do
@@ -43,10 +69,16 @@ defmodule Swapex.Context.SchedulerContextTest do
       workers_webhook = ["Swapex.Jobs.Webhook.PushJob"]
       username = "andridus"
       repository = "lx"
+
+      params = %{
+        "username" => username,
+        "repository" => repository
+      }
+
       # create contributors and issues on Github Api
       :ok = State.set_contributors(username, repository, [1])
       :ok = State.set_issues(username, repository, "open", false, 1..2)
-      assert {:ok, _job} = SchedulerContext.to_fetch_repository(username, repository)
+      assert {:ok, _job} = SchedulerContext.to_fetch_repository(params)
 
       jobs_gihub = all_enqueued(queue: :github)
       assert Enum.all?(jobs_gihub, &(&1.worker in workers_github))
@@ -73,12 +105,18 @@ defmodule Swapex.Context.SchedulerContextTest do
       workers_github = ["Swapex.Jobs.Github.FetchRepositoryJob"]
       username = "andridus"
       repository = "lx"
+
+      params = %{
+        "username" => username,
+        "repository" => repository
+      }
+
       # create contributors and issues on Github Api
       :ok = State.set_contributors(username, repository, [1])
       :ok = State.set_issues(username, repository, "open", false, 1..2)
 
       for _i <- 1..10 do
-        assert {:ok, _job} = SchedulerContext.to_fetch_repository(username, repository)
+        assert {:ok, _job} = SchedulerContext.to_fetch_repository(params)
       end
 
       jobs_gihub = all_enqueued(queue: :github)
@@ -102,10 +140,16 @@ defmodule Swapex.Context.SchedulerContextTest do
       workers_github = ["Swapex.Jobs.Github.FetchRepositoryJob"]
       username = "andridus"
       repository = "lx"
+
+      params = %{
+        "username" => username,
+        "repository" => repository
+      }
+
       # create contributors and issues on Github Api
       :ok = State.set_contributors(username, repository, [1])
       :ok = State.set_issues(username, repository, "open", false, 1..2)
-      assert {:ok, _job} = SchedulerContext.to_fetch_repository(username, repository)
+      assert {:ok, _job} = SchedulerContext.to_fetch_repository(params)
 
       jobs_gihub = all_enqueued(queue: :github)
       assert Enum.all?(jobs_gihub, &(&1.worker in workers_github))

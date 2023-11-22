@@ -7,6 +7,8 @@ config :swapex, SwapexWeb.Endpoint,
   secret_key_base: "jjZD4/2G3gdiazOPuBJHPEMwNYdySUN1fDBMPRRamQp1dxNBhAUA7jwE/g8LgOor",
   server: false
 
+config :swapex, webhook_id: "f855fbda-72e2-4c0c-8f67-a28146931f84"
+
 config :swapex, Swapex.Repo,
   database: Path.expand("../db/swapex_test.db", Path.dirname(__ENV__.file)),
   pool_size: 5,

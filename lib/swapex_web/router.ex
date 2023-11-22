@@ -5,8 +5,10 @@ defmodule SwapexWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", SwapexWeb do
+  scope "/", SwapexWeb do
     pipe_through :api
+
+    post "/schedule", SchedulerController, :schedule
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

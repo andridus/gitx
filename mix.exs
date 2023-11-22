@@ -17,6 +17,7 @@ defmodule Swapex.MixProject do
           SwapexWeb.Router,
           SwapexWeb.Endpoint,
           SwapexWeb.Telemetry,
+          SwapexWeb.ConnCase,
           Swapex.Fixtures,
           Swapex.External.Api,
           Swapex.External.Github.Api,

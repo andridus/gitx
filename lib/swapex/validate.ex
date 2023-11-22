@@ -104,4 +104,22 @@ defmodule Swapex.Validate do
         {:error, field, :invalid_list}
     end
   end
+
+  @doc """
+    Validates when field is required
+
+    ## Examples
+
+      iex> Swapex.Validate.is_required?(%{a: "a-string"}, :a)
+      {:ok, %{a: "a-string"}}
+      iex> Swapex.Validate.is_required?(%{a: ""}, :b)
+      {:error, :b, :required}
+  """
+  def is_required?(map, field) do
+    if Map.has_key?(map, field) do
+      {:ok, map}
+    else
+      {:error, field, :required}
+    end
+  end
 end

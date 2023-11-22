@@ -23,18 +23,19 @@ if System.get_env("PHX_SERVER") do
   config :swapex, SwapexWeb.Endpoint, server: true
 end
 
+delivery = System.get_env("DELIVERY", "day")
+config :swapex, delivery: delivery
+
+if config_env() in [:dev, :prod] do
+  webhook_id =
+    System.get_env("WEBHOOK_ID") ||
+      raise "environment variable WEBHOOK_ID is missing."
+
+  config :swapex, webhook_id: webhook_id
+end
+
 if config_env() == :prod do
   ## Configuration for this project
-  user =
-    System.get_env("GITHUB_USER") ||
-      raise "environment variable GITHUB_USER is missing."
-
-  repository =
-    System.get_env("GITHUB_REPO") ||
-      raise "environment variable GITHUB_REPO is missing."
-
-  config :swapex, github_user: user, github_repo: repository
-
   database_path =
     System.get_env("DATABASE_PATH") ||
       raise """
@@ -42,9 +43,10 @@ if config_env() == :prod do
       For example: /etc/e/e.db
       """
 
-  config :e, E.Repo,
+  config :swapex, Swapex.Repo,
     database: database_path,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "5")
+    pool_size: 5,
+    pool: Ecto.Adapters.SQL.Sandbox
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you

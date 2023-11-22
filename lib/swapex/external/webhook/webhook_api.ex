@@ -4,17 +4,15 @@ defmodule Swapex.External.Webhook.Api do
   """
   use Swapex.External.Api, endpoint: "https://webhook.site/"
 
-  @id "7bed3493-18fb-4b78-827b-d19a95207211"
-
   @doc """
     Post push data to wehbook
     params
       data: GithubRepo.t()
   """
-
   @spec(push(data :: map()) :: :ok, {:error, String.t()})
   def push(%{"user" => _, "repo" => _, "issues" => _, "contributors" => _} = data) do
-    post(@id, data)
+    webhook_id()
+    |> post(data)
     |> case do
       {:ok, %HTTPoison.Response{status_code: 200}} -> :ok
       {:ok, %HTTPoison.Response{status_code: status}} -> {:error, Api.label_from_status(status)}
@@ -25,4 +23,6 @@ defmodule Swapex.External.Webhook.Api do
   def push(_data) do
     {:error, :invalid_struct}
   end
+
+  defp webhook_id, do: Application.get_env(:swapex, :webhook_id)
 end

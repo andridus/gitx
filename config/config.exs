@@ -13,11 +13,9 @@ config :swapex,
 config :swapex,
   ecto_repos: [Swapex.Repo]
 
-config :swapex, Swapex.Repo, database: "scheduler.db"
-
 config :swapex, Oban,
   engine: Oban.Engines.Lite,
-  queues: [default: 10, github: 1, webhook: 10],
+  queues: [github: 1, webhook: 10],
   repo: Swapex.Repo
 
 # Configures the endpoint

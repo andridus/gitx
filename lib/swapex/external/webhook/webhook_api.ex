@@ -2,7 +2,6 @@ defmodule Swapex.External.Webhook.Api do
   @moduledoc """
     Webhook Api to push data
   """
-  alias Swapex.Core.GithubRepo
   use Swapex.External.Api, endpoint: "https://webhook.site/"
 
   @id "7bed3493-18fb-4b78-827b-d19a95207211"
@@ -12,8 +11,9 @@ defmodule Swapex.External.Webhook.Api do
     params
       data: GithubRepo.t()
   """
-  @spec(push(data :: GithubRepo.t()) :: :ok, {:error, String.t()})
-  def push(%GithubRepo{} = data) do
+
+  @spec(push(data :: map()) :: :ok, {:error, String.t()})
+  def push(%{"user" => _, "repo" => _, "issues" => _, "contributors" => _} = data) do
     post(@id, data)
     |> case do
       {:ok, %HTTPoison.Response{status_code: 200}} -> :ok

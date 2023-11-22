@@ -62,7 +62,7 @@ defmodule Swapex.MixProject do
       {:httpoison, "~> 2.0"},
       {:oban, "~> 2.16"},
       {:ecto_sql, "~> 3.0"},
-      {:ecto_sqlite3, "~> 0.12"},
+      {:ecto_sqlite3, ">= 0.0.0"},
       # test
       {:faker, "~> 0.17", only: :test},
       {:mix_test_watch, "~> 1.0", only: :test, runtime: false},

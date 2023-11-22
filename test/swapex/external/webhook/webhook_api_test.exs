@@ -33,6 +33,7 @@ defmodule Swapex.External.Webhook.ApiTest do
           contributors: fake_contributors
         })
 
+      github_struct = to_stringified_map(github_struct)
       assert :ok = Webhook.Api.push(github_struct)
     end
 
@@ -51,6 +52,7 @@ defmodule Swapex.External.Webhook.ApiTest do
           contributors: fake_contributors
         })
 
+      github_struct = to_stringified_map(github_struct)
       assert {:error, :nxdomain} = Webhook.Api.push(github_struct)
     end
 
@@ -69,7 +71,12 @@ defmodule Swapex.External.Webhook.ApiTest do
           contributors: fake_contributors
         })
 
+      github_struct = to_stringified_map(github_struct)
       assert {:error, _} = Webhook.Api.push(github_struct)
     end
+  end
+
+  defp to_stringified_map(strc) do
+    strc |> Jason.encode!() |> Jason.decode!()
   end
 end

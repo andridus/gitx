@@ -21,7 +21,7 @@ erl_crash.dump
 
 # Temporary files, for example, from tests.
 /tmp/
+/db/
 
 # Ignore package tarball (built via "mix hex.build").
 swapex-*.tar
-

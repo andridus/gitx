@@ -33,7 +33,7 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   Para bibliotecas externas, além do phoenix framework (sem ecto e html) utilizamos `httpoison`, `sqlite`, `ecto` e `oban`
 
   - [x] Criação da entidade `Issue`
-  - [x] Criação da entidade `Contibutor`
+  - [x] Criação da entidade `Contributor`
   - [x] Criação da entidade `GithubRepo`
   - [x] Criação do Recurso API com HTTPoison
   - [x] Tratamento da informação proveniente da API em Github.Response
@@ -49,10 +49,13 @@ Serviço que recupera todas as issues de um determinado repositório no github e
   - [x] Ajustar função de obter issues e contributors recursivamente.
   - [x] Criaçao da função para popular o webhook
   - [x] Configuração do Oban com SQLite para agendar operações pro proximo dia
-  - [ ] Criação de um job imediato para obter os dados do Github
-  - [ ] Criação de um job agendado para efetuar push pro Webhook
+  - [x] Criação de um job imediato (até 1 por vez) para obter os dados do Github
+  - [x] Criação de um job agendado (até 10 por vez) para efetuar push pro Webhook
   - [ ] Implementar endpoint para realizar `entrada esperada`
-  - [ ] Implementar prevenção de rate_limit para muitas requisições no Github (60 req/hora)
+
+## Observação final
+  É necessário implementar prevenção de rate_limit para muitas requisições no Github (60 req/hora) visto que para obter os `issues` e `contributors` é executado uma consulta recursiva na Api do github que retorna sempre 100 de cada, caso o repositorio solicitado tenha muitos contribuidores e muitas issues então o limite de 60 req/hora será facilmente estourado.
+  A estratégia que poderiamos implementar é um Genserver para realizar as consultas no github, de maneira que conseguiremos controlar objetivamente a quantidade de requisicoes realizadas, e depois, caso tenha se esgotado as requisicoes durante a montagem dos dados de um repo, o worker esperaria o tempo de disponibilidade para realizar novas (o tempo é informado no header do retorno do github), e então continuaria a montar os dados do repo e somente qundo finalizasse este, iria para o próximo da fila. visto que os jobs `Job.Github` somente performa 1 por vez.
 
 ## Para rodar a aplicação
   Configuramos a aplicação para ficar pronta em docker afim de que a execução seja facilitada, além de poder medir o tamanho da imagem e prever a quantidade de recursos que ela necessitará, em caso de rodando em kubernetes.

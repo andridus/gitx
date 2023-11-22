@@ -16,6 +16,12 @@ config :swapex, SwapexWeb.Endpoint,
   secret_key_base: "44RDdPWjQZOBAGYOIQpXxWlLO/1n14wJh1urCtq/x/p1/X+ym0h5BWFf8dwBH/oH",
   watchers: []
 
+config :swapex, Swapex.Repo,
+  database: Path.expand("../db/swapex_dev.db", Path.dirname(__ENV__.file)),
+  pool_size: 5,
+  stacktrace: true,
+  show_sensitive_data_on_connection_error: true
+
 # ## SSL Support
 #
 # In order to use HTTPS in development, a self-signed

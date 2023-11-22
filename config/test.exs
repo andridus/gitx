@@ -7,6 +7,17 @@ config :swapex, SwapexWeb.Endpoint,
   secret_key_base: "jjZD4/2G3gdiazOPuBJHPEMwNYdySUN1fDBMPRRamQp1dxNBhAUA7jwE/g8LgOor",
   server: false
 
+config :swapex, Swapex.Repo,
+  database: Path.expand("../db/swapex_test.db", Path.dirname(__ENV__.file)),
+  pool_size: 5,
+  pool: Ecto.Adapters.SQL.Sandbox
+
+config :swapex, Oban,
+  engine: Oban.Engines.Lite,
+  prefix: false,
+  queues: [github: 1, webhook: 10],
+  repo: Swapex.Repo
+
 # In test we don't send emails.
 config :swapex, Swapex.Mailer, adapter: Swoosh.Adapters.Test
 

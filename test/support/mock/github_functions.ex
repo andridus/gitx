@@ -1,9 +1,9 @@
-defmodule Swapex.Mock.GithubFunctions do
+defmodule Gitx.Mock.GithubFunctions do
   @moduledoc """
     Functions to endpoint Github in Mock
   """
-  alias Swapex.Fixtures
-  alias Swapex.Mock.State
+  alias Gitx.Fixtures
+  alias Gitx.Mock.State
 
   def get_user(conn, %{"username" => username}) do
     State.access(conn.url)

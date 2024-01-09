@@ -1,4 +1,4 @@
-defmodule Swapex.Repo.Migrations.AddObanJobsTable do
+defmodule Gitx.Repo.Migrations.AddObanJobsTable do
   use Ecto.Migration
 
   def up do

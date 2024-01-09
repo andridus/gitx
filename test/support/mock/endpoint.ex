@@ -1,9 +1,9 @@
-defmodule Swapex.Mock.Endpoint do
+defmodule Gitx.Mock.Endpoint do
   @moduledoc """
     Mock of Github Endpoint for HTTPoison
   """
   use HTTPMock, behaviour: :httpoison
-  alias Swapex.Mock.{GithubFunctions, SwapFunctions, WebhookFunctions}
+  alias Gitx.Mock.{GithubFunctions, SwapFunctions, WebhookFunctions}
 
   endpoint "https://api.github.com" do
     get "/users/:username", GithubFunctions, :get_user

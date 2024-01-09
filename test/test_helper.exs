@@ -1,5 +1,5 @@
 Mimic.copy(HTTPoison)
 ExUnit.start()
 Faker.start()
-HTTPMock.State.Supervisor.start_link([Swapex.Mock.State])
-Ecto.Adapters.SQL.Sandbox.mode(Swapex.Repo, :manual)
+HTTPMock.State.Supervisor.start_link([Gitx.Mock.State])
+Ecto.Adapters.SQL.Sandbox.mode(Gitx.Repo, :manual)

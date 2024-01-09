@@ -6,7 +6,7 @@ import Config
 # The watchers configuration can be used to run external
 # watchers to your application. For example, we can use it
 # to bundle .js and .css sources.
-config :swapex, SwapexWeb.Endpoint,
+config :swapex, GitxWeb.Endpoint,
   # Binding to loopback ipv4 address prevents access from other machines.
   # Change to `ip: {0, 0, 0, 0}` to allow access from other machines.
   http: [ip: {127, 0, 0, 1}, port: 4000],
@@ -16,7 +16,7 @@ config :swapex, SwapexWeb.Endpoint,
   secret_key_base: "44RDdPWjQZOBAGYOIQpXxWlLO/1n14wJh1urCtq/x/p1/X+ym0h5BWFf8dwBH/oH",
   watchers: []
 
-config :swapex, Swapex.Repo,
+config :swapex, Gitx.Repo,
   database: Path.expand("../db/swapex_dev.db", Path.dirname(__ENV__.file)),
   pool_size: 5,
   stacktrace: true,

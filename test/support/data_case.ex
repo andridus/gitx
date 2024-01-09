@@ -1,16 +1,16 @@
-defmodule Swapex.DataCase do
+defmodule Gitx.DataCase do
   @moduledoc """
   This module defines the test for data sql context.
   """
 
   use ExUnit.CaseTemplate
   alias Ecto.Adapters.SQL.Sandbox
-  alias Swapex.Repo
+  alias Gitx.Repo
 
   using do
     quote do
-      alias Swapex.Fixtures
-      import Swapex.StructCase
+      alias Gitx.Fixtures
+      import Gitx.StructCase
     end
   end
 

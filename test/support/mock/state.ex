@@ -1,8 +1,8 @@
-defmodule Swapex.Mock.State do
+defmodule Gitx.Mock.State do
   @moduledoc """
     State for manipulate mock test based
   """
-  alias Swapex.Fixtures
+  alias Gitx.Fixtures
   use HTTPMock.State
 
   entity(:request, default: [], key: :id)

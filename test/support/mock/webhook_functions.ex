@@ -1,8 +1,8 @@
-defmodule Swapex.Mock.WebhookFunctions do
+defmodule Gitx.Mock.WebhookFunctions do
   @moduledoc """
     Functions to endpoint Webhook in Mock
   """
-  alias Swapex.Mock.State
+  alias Gitx.Mock.State
 
   def post_push(conn, %{"uuid" => uuid} = params) do
     State.access(conn.url)

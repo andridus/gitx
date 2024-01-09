@@ -1,4 +1,4 @@
-defmodule SwapexWeb.ConnCase do
+defmodule GitxWeb.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -11,25 +11,25 @@ defmodule SwapexWeb.ConnCase do
   we enable the SQL sandbox, so changes done to the database
   are reverted at the end of every test. If you are using
   PostgreSQL, you can even run database tests asynchronously
-  by setting `use SwapexWeb.ConnCase, async: true`, although
+  by setting `use GitxWeb.ConnCase, async: true`, although
   this option is not recommended for other databases.
   """
 
   use ExUnit.CaseTemplate
   alias Ecto.Adapters.SQL.Sandbox
-  alias Swapex.Repo
+  alias Gitx.Repo
 
   using do
     quote do
       # The default endpoint for testing
-      @endpoint SwapexWeb.Endpoint
+      @endpoint GitxWeb.Endpoint
 
-      use SwapexWeb, :verified_routes
+      use GitxWeb, :verified_routes
 
       # Import conveniences for testing with connections
       import Plug.Conn
       import Phoenix.ConnTest
-      import SwapexWeb.ConnCase
+      import GitxWeb.ConnCase
     end
   end
 

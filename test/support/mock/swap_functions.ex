@@ -1,4 +1,4 @@
-defmodule Swapex.Mock.SwapFunctions do
+defmodule Gitx.Mock.SwapFunctions do
   @moduledoc """
     Functions to endpoint Swap in Mock
   """

@@ -1,8 +1,8 @@
-defmodule Swapex.FixturesContributor do
+defmodule Gitx.FixturesContributor do
   @moduledoc false
 
-  alias Swapex.Core.Contributor
-  alias Swapex.Fixtures
+  alias Gitx.Core.Contributor
+  alias Gitx.Fixtures
 
   @spec list(Range.t()) :: [Contributor.t()]
   def list(range \\ 2..6) do

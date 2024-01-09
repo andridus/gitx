@@ -1,7 +1,7 @@
 version: '3'
 services:
-  swapex:
-    image: swapex
+  gitx:
+    image: gitx
     build:
       context: .
     # volumes:

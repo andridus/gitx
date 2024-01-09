@@ -1,4 +1,4 @@
-defmodule Swapex.MixProject do
+defmodule Gitx.MixProject do
   use Mix.Project
 
   def project do
@@ -12,18 +12,18 @@ defmodule Swapex.MixProject do
       deps: deps(),
       test_coverage: [
         ignore_modules: [
-          Swapex.Application,
-          SwapexWeb.Gettext,
-          SwapexWeb.Router,
-          SwapexWeb.Endpoint,
-          SwapexWeb.Telemetry,
-          SwapexWeb.ConnCase,
-          Swapex.Fixtures,
-          Swapex.External.Api,
-          Swapex.External.Github.Api,
-          Swapex.Mock.GithubFunctions,
-          Swapex.Mock.State,
-          Swapex.Repo
+          Gitx.Application,
+          GitxWeb.Gettext,
+          GitxWeb.Router,
+          GitxWeb.Endpoint,
+          GitxWeb.Telemetry,
+          GitxWeb.ConnCase,
+          Gitx.Fixtures,
+          Gitx.External.Api,
+          Gitx.External.Github.Api,
+          Gitx.Mock.GithubFunctions,
+          Gitx.Mock.State,
+          Gitx.Repo
         ]
       ]
     ]
@@ -34,7 +34,7 @@ defmodule Swapex.MixProject do
   # Type `mix help compile.app` for more information.
   def application do
     [
-      mod: {Swapex.Application, []},
+      mod: {Gitx.Application, []},
       extra_applications: [:logger, :runtime_tools]
     ]
   end

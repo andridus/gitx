@@ -1,8 +1,8 @@
-defmodule Swapex.FixturesIssue do
+defmodule Gitx.FixturesIssue do
   @moduledoc false
 
-  alias Swapex.Core.Issue
-  alias Swapex.Fixtures
+  alias Gitx.Core.Issue
+  alias Gitx.Fixtures
 
   @spec list(Range.t()) :: [Issue.t()]
   def list(range \\ 2..6) do

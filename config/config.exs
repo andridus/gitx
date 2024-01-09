@@ -11,22 +11,22 @@ config :swapex,
   generators: [timestamp_type: :utc_datetime]
 
 config :swapex,
-  ecto_repos: [Swapex.Repo]
+  ecto_repos: [Gitx.Repo]
 
 config :swapex, Oban,
   engine: Oban.Engines.Lite,
   queues: [github: 1, webhook: 10],
-  repo: Swapex.Repo
+  repo: Gitx.Repo
 
 # Configures the endpoint
-config :swapex, SwapexWeb.Endpoint,
+config :swapex, GitxWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
-    formats: [json: SwapexWeb.ErrorJSON],
+    formats: [json: GitxWeb.ErrorJSON],
     layout: false
   ],
-  pubsub_server: Swapex.PubSub,
+  pubsub_server: Gitx.PubSub,
   live_view: [signing_salt: "FArdZhnG"]
 
 # Configures the mailer
@@ -36,7 +36,7 @@ config :swapex, SwapexWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :swapex, Swapex.Mailer, adapter: Swoosh.Adapters.Local
+config :swapex, Gitx.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,

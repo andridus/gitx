@@ -1,4 +1,4 @@
-defmodule Swapex.Fixtures do
+defmodule Gitx.Fixtures do
   @moduledoc false
 
   alias Faker.{Commerce, Internet, Lorem, Person}

@@ -1,7 +1,7 @@
 import Config
 
 ## Configuration for this project (prod config below)
-config :swapex, github_user: "andridus", github_repo: "lx"
+config :gitx, github_user: "andridus", github_repo: "lx"
 
 # config/runtime.exs is executed for all environments, including
 # during releases. It is executed after compilation and before the
@@ -20,33 +20,34 @@ config :swapex, github_user: "andridus", github_repo: "lx"
 # Alternatively, you can use `mix phx.gen.release` to generate a `bin/server`
 # script that automatically sets the env var above.
 if System.get_env("PHX_SERVER") do
-  config :swapex, GitxWeb.Endpoint, server: true
+  config :gitx, GitxWeb.Endpoint, server: true
 end
 
 delivery = System.get_env("DELIVERY", "day")
-config :swapex, delivery: delivery
+config :gitx, delivery: delivery
 
 if config_env() in [:dev, :prod] do
   webhook_id =
     System.get_env("WEBHOOK_ID") ||
       raise "environment variable WEBHOOK_ID is missing."
 
-  config :swapex, webhook_id: webhook_id
+  config :gitx, webhook_id: webhook_id
 end
 
 if config_env() == :prod do
-  ## Configuration for this project
-  database_path =
-    System.get_env("DATABASE_PATH") ||
+  database_url =
+    System.get_env("DATABASE_URL") ||
       raise """
-      environment variable DATABASE_PATH is missing.
-      For example: /etc/e/e.db
+      environment variable DATABASE_URL is missing.
+      For example: ecto://USER:PASS@HOST/DATABASE
       """
 
-  config :swapex, Gitx.Repo,
-    database: database_path,
-    pool_size: 5,
-    pool: Ecto.Adapters.SQL.Sandbox
+  maybe_ipv6 = if System.get_env("ECTO_IPV6") in ~w(true 1), do: [:inet6], else: []
+
+  config :gitx, Gitx.Repo,
+    url: database_url,
+    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10"),
+    socket_options: maybe_ipv6
 
   # The secret key base is used to sign/encrypt cookies and other secrets.
   # A default value is used in config/dev.exs and config/test.exs but you
@@ -63,9 +64,9 @@ if config_env() == :prod do
   host = System.get_env("PHX_HOST") || "example.com"
   port = String.to_integer(System.get_env("PORT") || "4000")
 
-  config :swapex, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
+  config :gitx, :dns_cluster_query, System.get_env("DNS_CLUSTER_QUERY")
 
-  config :swapex, GitxWeb.Endpoint,
+  config :gitx, GitxWeb.Endpoint,
     url: [host: host, port: 443, scheme: "https"],
     http: [
       # Enable IPv6 and bind on all interfaces.
@@ -82,7 +83,7 @@ if config_env() == :prod do
   # To get SSL working, you will need to add the `https` key
   # to your endpoint configuration:
   #
-  #     config :swapex, GitxWeb.Endpoint,
+  #     config :gitx, GitxWeb.Endpoint,
   #       https: [
   #         ...,
   #         port: 443,
@@ -104,7 +105,7 @@ if config_env() == :prod do
   # We also recommend setting `force_ssl` in your endpoint, ensuring
   # no data is ever sent via http, always redirecting to https:
   #
-  #     config :swapex, GitxWeb.Endpoint,
+  #     config :gitx, GitxWeb.Endpoint,
   #       force_ssl: [hsts: true]
   #
   # Check `Plug.SSL` for all available options in `force_ssl`.
@@ -115,7 +116,7 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  #     config :swapex, Gitx.Mailer,
+  #     config :gitx, Gitx.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
   #       api_key: System.get_env("MAILGUN_API_KEY"),
   #       domain: System.get_env("MAILGUN_DOMAIN")

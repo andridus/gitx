@@ -24,5 +24,5 @@ defmodule Gitx.External.Webhook.Api do
     {:error, :invalid_struct}
   end
 
-  defp webhook_id, do: Application.get_env(:swapex, :webhook_id)
+  defp webhook_id, do: Application.get_env(:gitx, :webhook_id)
 end

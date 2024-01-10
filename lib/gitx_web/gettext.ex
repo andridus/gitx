@@ -20,5 +20,5 @@ defmodule GitxWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :swapex
+  use Gettext, otp_app: :gitx
 end

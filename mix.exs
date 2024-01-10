@@ -3,7 +3,7 @@ defmodule Gitx.MixProject do
 
   def project do
     [
-      app: :swapex,
+      app: :gitx,
       version: "0.1.0",
       elixir: "~> 1.14",
       elixirc_paths: elixirc_paths(Mix.env()),
@@ -22,6 +22,7 @@ defmodule Gitx.MixProject do
           Gitx.External.Api,
           Gitx.External.Github.Api,
           Gitx.Mock.GithubFunctions,
+          Gitx.StructCase,
           Gitx.Mock.State,
           Gitx.Repo
         ]
@@ -51,6 +52,8 @@ defmodule Gitx.MixProject do
       # phoenix
       {:phoenix, "~> 1.7.10"},
       {:phoenix_live_dashboard, "~> 0.8.2"},
+      {:ecto_sql, "~> 3.10"},
+      {:postgrex, ">= 0.0.0"},
       {:swoosh, "~> 1.3"},
       {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 0.6"},
@@ -62,8 +65,7 @@ defmodule Gitx.MixProject do
       # libs extra
       {:httpoison, "~> 2.0"},
       {:oban, "~> 2.16"},
-      {:ecto_sql, "~> 3.0"},
-      {:ecto_sqlite3, ">= 0.0.0"},
+      {:phoenix_ecto, "~> 4.4"},
       # test
       {:faker, "~> 0.17", only: :test},
       {:mix_test_watch, "~> 1.0", only: :test, runtime: false},

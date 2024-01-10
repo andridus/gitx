@@ -1,5 +1,5 @@
 defmodule GitxWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :swapex
+  use Phoenix.Endpoint, otp_app: :gitx
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
@@ -19,7 +19,7 @@ defmodule GitxWeb.Endpoint do
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/",
-    from: :swapex,
+    from: :gitx,
     gzip: false,
     only: GitxWeb.static_paths()
 

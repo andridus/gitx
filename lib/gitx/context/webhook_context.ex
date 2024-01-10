@@ -17,7 +17,7 @@ defmodule Gitx.Context.WebhookContext do
   end
 
   defp delivery_atom do
-    delivery = Application.get_env(:swapex, :delivery)
+    delivery = Application.get_env(:gitx, :delivery)
 
     if delivery in ["hour", "minute", "day"] do
       String.to_atom(delivery)

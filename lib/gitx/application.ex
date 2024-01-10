@@ -9,10 +9,10 @@ defmodule Gitx.Application do
   def start(_type, _args) do
     children = [
       GitxWeb.Telemetry,
-      {DNSCluster, query: Application.get_env(:swapex, :dns_cluster_query) || :ignore},
+      {DNSCluster, query: Application.get_env(:gitx, :dns_cluster_query) || :ignore},
       Gitx.Repo,
       {Phoenix.PubSub, name: Gitx.PubSub},
-      {Oban, Application.fetch_env!(:swapex, Oban)},
+      {Oban, Application.fetch_env!(:gitx, Oban)},
       # Start the Finch HTTP client for sending emails
       {Finch, name: Gitx.Finch},
       # Start a worker by calling: Gitx.Worker.start_link(arg)

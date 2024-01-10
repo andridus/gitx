@@ -7,19 +7,16 @@
 # General application configuration
 import Config
 
-config :swapex,
+config :gitx,
+  ecto_repos: [Gitx.Repo],
   generators: [timestamp_type: :utc_datetime]
 
-config :swapex,
-  ecto_repos: [Gitx.Repo]
-
-config :swapex, Oban,
-  engine: Oban.Engines.Lite,
+config :gitx, Oban,
   queues: [github: 1, webhook: 10],
   repo: Gitx.Repo
 
 # Configures the endpoint
-config :swapex, GitxWeb.Endpoint,
+config :gitx, GitxWeb.Endpoint,
   url: [host: "localhost"],
   adapter: Phoenix.Endpoint.Cowboy2Adapter,
   render_errors: [
@@ -36,7 +33,7 @@ config :swapex, GitxWeb.Endpoint,
 #
 # For production it's recommended to configure a different adapter
 # at the `config/runtime.exs`.
-config :swapex, Gitx.Mailer, adapter: Swoosh.Adapters.Local
+config :gitx, Gitx.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configures Elixir's Logger
 config :logger, :console,

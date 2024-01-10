@@ -1,3 +1,3 @@
 defmodule Gitx.Repo do
-  use Ecto.Repo, otp_app: :swapex, adapter: Ecto.Adapters.SQLite3
+  use Ecto.Repo, otp_app: :gitx, adapter: Ecto.Adapters.Postgres
 end

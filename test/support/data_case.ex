@@ -14,12 +14,12 @@ defmodule Gitx.DataCase do
     end
   end
 
-  setup tags do
+  setup _tags do
     :ok = Sandbox.checkout(Repo)
 
-    unless tags[:async] do
-      Sandbox.mode(Repo, {:shared, self()})
-    end
+    # unless tags[:async] do
+    #   Sandbox.mode(Repo, {:shared, self()})
+    # end
 
     :ok
   end

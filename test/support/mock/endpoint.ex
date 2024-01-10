@@ -2,6 +2,7 @@ defmodule Gitx.Mock.Endpoint do
   @moduledoc """
     Mock of Github Endpoint for HTTPoison
   """
+
   use HTTPMock, behaviour: :httpoison
   alias Gitx.Mock.{GithubFunctions, SwapFunctions, WebhookFunctions}
 

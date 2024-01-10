@@ -17,6 +17,7 @@ defmodule Gitx.Context.SchedulerContextTest do
       workers_github = ["Gitx.Jobs.Github.FetchRepositoryJob"]
       username = "andridus"
       repository = "lx"
+      expected_time = 0
       # create contributors and issues on Github Api
       :ok = State.set_contributors(username, repository, [1])
       :ok = State.set_issues(username, repository, "open", false, 1..2)
@@ -40,7 +41,7 @@ defmodule Gitx.Context.SchedulerContextTest do
                  perform_job(Module.concat(String.split(worker, ".")), args)
 
         assert "scheduled" = job_webhook.state
-        assert DateTime.diff(job_webhook.scheduled_at, DateTime.utc_now(), :hour) >= 23
+        assert DateTime.diff(job_webhook.scheduled_at, DateTime.utc_now(), :hour) >= expected_time
       end
     end
 

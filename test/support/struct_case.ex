@@ -15,4 +15,8 @@ defmodule Gitx.StructCase do
   setup _tags do
     :ok
   end
+
+  def from_env(key) do
+    System.get_env(key) || raise "Env #{key} not defined"
+  end
 end

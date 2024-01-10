@@ -8,12 +8,6 @@ defmodule Gitx.Jobs.Webhook.PushJob do
 
   @impl Oban.Worker
   def perform(%Oban.Job{args: params}) do
-    case Webhook.Api.push(params) do
-      :ok ->
-        :ok
-
-      error ->
-        :error
-    end
+    Webhook.Api.push(params)
   end
 end
